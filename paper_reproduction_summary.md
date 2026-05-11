@@ -37,7 +37,7 @@ setappdata(0, 'KEEP_PAPER_FIGURES', true)
 - Section IV 的训练矩阵 `X`、Gram 矩阵 `X' * X`、理论 LS-MSE 计算。
 - CZCP 与随机同支撑训练的 Section IV 性能对比。
 - Fig. 6(a) 风格复现：`Nt = 4`，多径数为 `5`，`J = 2, 6, 18`。
-- Fig. 6(b) 对照曲线：CZCP、GCP、m-sequence、Barker、Gold、CAN-like、Zadoff-Chu、Random、Minimum MSE。
+- Fig. 6(b) 对照曲线：CZCP、GCP、m-sequence、Barker、Gold、Zadoff-Chu、Random、Minimum MSE。
 - Barker 对照已改为论文描述的 `4 x 104` 稀疏训练矩阵结构。
 - Monte Carlo 随机信道 LS 估计验证。
 
@@ -61,8 +61,8 @@ setappdata(0, 'KEEP_PAPER_FIGURES', true)
 
 - 暂未找到作者官方 Fig. 6 MATLAB 代码。
 - Gold 曲线使用标准 length-31 Gold sequence 构造。
-- CAN 曲线使用本工程可复现的 constant-amplitude cyclic-sidelobe 优化实现，记为 CAN-like。
-- 因此 Fig. 6(b) 可称为“按论文结构复现的对照实验”，但不能声称使用了作者官方 CAN 参数。
+- 由于缺少作者官方 CAN 序列参数，本文不再绘制 CAN 曲线，避免引入非官方对照。
+- 因此 Fig. 6(b) 可称为“按论文结构复现的对照实验”，但不包含论文原图中的 CAN 官方曲线。
 
 ## 验证状态
 

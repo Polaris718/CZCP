@@ -134,7 +134,6 @@ plot_section4_comparison
 - m-sequence
 - Barker
 - Gold
-- CAN-like
 - Zadoff-Chu
 - Random
 - Minimum MSE
@@ -143,7 +142,7 @@ plot_section4_comparison
 
 - `图6b_MSE随多径数变化.png`
 
-说明：当前脚本已补入 Gold 和 CAN-like 曲线。由于暂未找到作者官方 Fig. 6 MATLAB 代码或官方 CAN 系数，CAN-like 曲线采用本工程中的可复现常幅优化实现；若后续拿到官方参数，需要替换该曲线。
+说明：当前脚本保留 Gold 曲线，但已去掉 CAN 曲线。由于暂未找到作者官方 Fig. 6 MATLAB 代码或官方 CAN 系数，本文不再绘制 CAN 对照，避免引入非官方性能分析。
 
 ## 已完成更新
 
@@ -218,7 +217,6 @@ run_all_paper_experiments
 - m-sequence
 - Barker
 - Gold
-- CAN-like
 - Zadoff-Chu
 - Random
 - Minimum MSE
@@ -226,13 +224,13 @@ run_all_paper_experiments
 执行记录：
 
 - 已补入 Gold sequence 训练矩阵。
-- 已补入 CAN-like constant-amplitude 训练矩阵。
-- 未找到作者官方 Fig. 6 MATLAB 代码或官方 CAN 系数，因此当前 CAN 曲线为可复现实作版本，不是官方代码一比一结果。
-- 当前结果应标注为“按论文结构复现的 Fig. 6 对照”，不能声称使用了作者官方 CAN 参数。
+- 已删除非官方 CAN 替代曲线及其性能对比分析。
+- 未找到作者官方 Fig. 6 MATLAB 代码或官方 CAN 系数，因此当前结果不再包含 CAN 对照。
+- 当前结果应标注为“按论文结构复现的 Fig. 6 对照”，但不包含论文原图中的 CAN 官方曲线。
 
 后续可选工作：
 
-- 若找到作者官方 Fig. 6 代码或 CAN 系数，用官方 CAN 替换当前 CAN-like 曲线。
+- 若找到作者官方 Fig. 6 代码或 CAN 系数，可单独补回官方 CAN 曲线。
 
 ### 5. Barker 对照结构
 
@@ -305,13 +303,13 @@ mse = norm(h_hat - h)^2 / num_params;
 - 完全跑通的基础序列验证实验。
 - Section IV 理论 LS-MSE 对比实验。
 - Fig. 6 风格复现实验。
-- 因缺少 CAN/Gold 官方参数或官方代码而暂未完全一比一复现的部分。
+- 因缺少 CAN 官方参数或官方代码而暂未完全一比一复现的部分。
 
 ## 当前剩余工作
 
 1. 核对 Fig. 6(a)、Fig. 6(b) 的横轴范围、纵轴单位和论文截图是否完全一致。
-2. 若后续找到作者官方 Fig. 6 代码或 CAN 系数，用官方 CAN 替换当前 CAN-like 曲线。
-3. 在最终论文/报告中明确标注：当前 CAN 为 CAN-like 可复现实作版本，不是作者官方 CAN 参数。
+2. 若后续找到作者官方 Fig. 6 代码或 CAN 系数，可单独补回官方 CAN 曲线。
+3. 在最终论文/报告中明确标注：当前 Fig. 6(b) 不包含 CAN 曲线，因为缺少作者官方 CAN 参数。
 
 ## 本机验证记录
 

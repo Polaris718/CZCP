@@ -8,9 +8,9 @@ clearvars; if ~isappdata(0, 'KEEP_PAPER_FIGURES') || ~getappdata(0, 'KEEP_PAPER_
 %            proposed CZCP versus several seed-sequence baselines.
 %
 % Notes:
-% - No official Fig. 6 MATLAB code was found locally. CAN and Gold are
-%   reproduced from standard deterministic constructions, while the training
-%   matrix dimensions follow the paper description.
+% - No official Fig. 6 MATLAB code was found locally. Gold is reproduced
+%   from a standard deterministic construction, while the training matrix
+%   dimensions follow the paper description.
 % - All curves are computed from the LS-MSE expression
 %   sigma2 * trace(inv(X' * X)) / num_params.
 
@@ -49,11 +49,6 @@ barker13 = [1, 1, 1, 1, 1, -1, -1, 1, 1, -1, 1, -1, 1];
 % Length-31 Gold sequence from a preferred m-sequence pair.
 gold31 = gold_sequence_31(9);
 
-% Length-32 CAN-like constant-amplitude sequence optimized for low cyclic
-% autocorrelation sidelobes. This is not the authors' unpublished CAN code,
-% but gives a reproducible CAN baseline with the same length and energy.
-can32 = can_sequence(32, 600, 17);
-
 % Four length-32 Zadoff-Chu style constant-amplitude sequences.
 zc32 = zeros(4, 32);
 for row = 1:4
@@ -64,8 +59,7 @@ fig6b_paths = 3:13;
 fig6b_ebno_db = 16;
 fprintf('Computing Fig. 6(b)...\n');
 fig6b = compute_fig6b(Nt, a16, b16, gcp_a16, gcp_b16, mseq31, ...
-    barker13, gold31, can32, zc32, fig6b_paths, fig6b_ebno_db, ...
-    num_random_trials);
+    barker13, gold31, zc32, fig6b_paths, fig6b_ebno_db, num_random_trials);
 
 save('fig6_reproduction_results.mat', 'fig6a', 'fig6b');
 
@@ -97,7 +91,6 @@ plot(fig6b_paths, fig6b.gcp_db, 's-', 'LineWidth', 1.5);
 plot(fig6b_paths, fig6b.mseq_db, '^-', 'LineWidth', 1.5);
 plot(fig6b_paths, fig6b.barker_db, 'd-', 'LineWidth', 1.5);
 plot(fig6b_paths, fig6b.gold_db, 'v-', 'LineWidth', 1.5);
-plot(fig6b_paths, fig6b.can_db, 'p-', 'LineWidth', 1.5);
 plot(fig6b_paths, fig6b.zc_db, 'x-', 'LineWidth', 1.5);
 plot(fig6b_paths, fig6b.random_db, '--', 'LineWidth', 1.5);
 plot(fig6b_paths, fig6b.bound_db, 'k:', 'LineWidth', 1.4);
@@ -105,7 +98,7 @@ grid on;
 xlabel('Number of multi-paths');
 ylabel('MSE (dB)');
 title('(b) EbNo = 16 dB, E = 32');
-legend('CZCP', 'GCP', 'm-sequence', 'Barker', 'Gold', 'CAN-like', ...
+legend('CZCP', 'GCP', 'm-sequence', 'Barker', 'Gold', ...
     'Zadoff-Chu', 'Random', 'Minimum MSE', 'Location', 'northwest');
 
 saveas(gcf, '图6_复现总览.png');
@@ -135,7 +128,6 @@ plot(fig6b_paths, fig6b.gcp_db, 's-', 'LineWidth', 1.5);
 plot(fig6b_paths, fig6b.mseq_db, '^-', 'LineWidth', 1.5);
 plot(fig6b_paths, fig6b.barker_db, 'd-', 'LineWidth', 1.5);
 plot(fig6b_paths, fig6b.gold_db, 'v-', 'LineWidth', 1.5);
-plot(fig6b_paths, fig6b.can_db, 'p-', 'LineWidth', 1.5);
 plot(fig6b_paths, fig6b.zc_db, 'x-', 'LineWidth', 1.5);
 plot(fig6b_paths, fig6b.random_db, '--', 'LineWidth', 1.5);
 plot(fig6b_paths, fig6b.bound_db, 'k:', 'LineWidth', 1.4);
@@ -143,7 +135,7 @@ grid on;
 xlabel('Number of multi-paths');
 ylabel('MSE (dB)');
 title('Fig. 6(b) Reproduction');
-legend('CZCP', 'GCP', 'm-sequence', 'Barker', 'Gold', 'CAN-like', ...
+legend('CZCP', 'GCP', 'm-sequence', 'Barker', 'Gold', ...
     'Zadoff-Chu', 'Random', 'Minimum MSE', 'Location', 'northwest');
 saveas(gcf, '图6b_MSE随多径数变化.png');
 
@@ -183,7 +175,7 @@ function fig6a = compute_fig6a(Nt, a, b, paths, J_list, ebno_db, random_trials)
 end
 
 function fig6b = compute_fig6b(Nt, czcp_a, czcp_b, gcp_a, gcp_b, mseq, ...
-    barker, gold, can_seq, zc_rows, paths_list, ebno_db, random_trials)
+    barker, gold, zc_rows, paths_list, ebno_db, random_trials)
 
     noise_var = 10^(-ebno_db / 10);
     E_target = 32;
@@ -199,8 +191,6 @@ function fig6b = compute_fig6b(Nt, czcp_a, czcp_b, gcp_a, gcp_b, mseq, ...
         build_barker104_training(barker, Nt), E_target);
     Omega_gold = normalize_training_energy( ...
         build_structure48_from_rows(repmat(gold, Nt, 1)), E_target);
-    Omega_can = normalize_training_energy( ...
-        build_structure48_from_rows(repmat(can_seq, Nt, 1)), E_target);
     Omega_zc = normalize_training_energy( ...
         build_structure48_from_rows(zc_rows), E_target);
 
@@ -209,13 +199,11 @@ function fig6b = compute_fig6b(Nt, czcp_a, czcp_b, gcp_a, gcp_b, mseq, ...
     fig6b.mseq_db = zeros(size(paths_list));
     fig6b.barker_db = zeros(size(paths_list));
     fig6b.gold_db = zeros(size(paths_list));
-    fig6b.can_db = zeros(size(paths_list));
     fig6b.zc_db = zeros(size(paths_list));
     fig6b.random_db = zeros(size(paths_list));
     fig6b.bound_db = zeros(size(paths_list));
     fig6b.notes = ['Gold uses a standard length-31 preferred-pair ' ...
-        'construction. CAN-like uses deterministic constant-amplitude ' ...
-        'cyclic-sidelobe optimization because official CAN coefficients ' ...
+        'construction. CAN is omitted because official CAN coefficients ' ...
         'were not available.'];
 
     for idx = 1:length(paths_list)
@@ -225,7 +213,6 @@ function fig6b = compute_fig6b(Nt, czcp_a, czcp_b, gcp_a, gcp_b, mseq, ...
         fig6b.mseq_db(idx) = 10 * log10(noise_var * mse_trace_factor(Omega_mseq, channel_len));
         fig6b.barker_db(idx) = 10 * log10(noise_var * mse_trace_factor(Omega_barker, channel_len));
         fig6b.gold_db(idx) = 10 * log10(noise_var * mse_trace_factor(Omega_gold, channel_len));
-        fig6b.can_db(idx) = 10 * log10(noise_var * mse_trace_factor(Omega_can, channel_len));
         fig6b.zc_db(idx) = 10 * log10(noise_var * mse_trace_factor(Omega_zc, channel_len));
         fig6b.bound_db(idx) = 10 * log10(noise_var / E_target);
 
@@ -310,36 +297,4 @@ function bits = m_sequence_binary(taps, m)
         feedback = mod(sum(state(m - taps + 1)), 2);
         state = [feedback, state(1:end-1)];
     end
-end
-
-function seq = can_sequence(N, iterations, seed)
-    previous_state = rng;
-    cleanup = onCleanup(@() rng(previous_state));
-    rng(seed);
-
-    seq = exp(1i * 2 * pi * rand(1, N));
-    best_seq = seq;
-    best_score = cyclic_sidelobe_energy(seq);
-    step = 0.25;
-
-    for iter = 1:iterations
-        candidate = exp(1i * angle(seq + step * exp(1i * 2 * pi * rand(1, N))));
-        if cyclic_sidelobe_energy(candidate) < cyclic_sidelobe_energy(seq)
-            seq = candidate;
-        end
-        score = cyclic_sidelobe_energy(seq);
-        if score < best_score
-            best_score = score;
-            best_seq = seq;
-        end
-        step = max(0.01, step * 0.995);
-    end
-
-    seq = best_seq;
-end
-
-function energy = cyclic_sidelobe_energy(seq)
-    corr = ifft(abs(fft(seq)).^2);
-    sidelobes = corr(2:end);
-    energy = sum(abs(sidelobes).^2);
 end
