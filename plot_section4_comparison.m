@@ -29,7 +29,7 @@ ylabel('Normalized MSE');
 legend('CZCP training', 'Theoretical lower bound', ...
     'Random same-support training', 'Location', 'southwest');
 title('MSE Performance Comparison');
-saveas(gcf, '第4节_MSE性能对比.png');
+saveas(gcf, 'section4_mse_comparison.png');
 
 figure('Color', 'w');
 bar([results.gram_err_czcp, results.gram_err_random]);
@@ -38,8 +38,8 @@ set(gca, 'YScale', 'log');
 grid on;
 ylabel('max |X^H X - E I|');
 title('Training Matrix Orthogonality Error');
-saveas(gcf, '第4节_Gram正交性误差对比.png');
+saveas(gcf, 'section4_gram_error_comparison.png');
 
 fprintf('Figures saved:\n');
-fprintf('  第4节_MSE性能对比.png\n');
-fprintf('  第4节_Gram正交性误差对比.png\n');
+fprintf('  section4_mse_comparison.png\n');
+fprintf('  section4_gram_error_comparison.png\n');

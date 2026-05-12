@@ -1,19 +1,19 @@
-%% 1. 参数定义
-N = 4;                % 维度
-k = 2;                % 下标 k
+%% Verification or construction step
+N = 4;  % Implementation note.
+k = 2;  % Implementation note.
 n_k = 3;              % n(k)
 
-%% 2. 构造单位向量 e_{n(k)}
+%% Verification or construction step
 e = zeros(N, 1);
 e(n_k) = 1;
 
-%% 3. 构造对角矩阵 S_{n(k)}
-S = diag(randn(N, 1)); % 随机对角阵，你可替换为自己的 S
+%% Verification or construction step
+S = diag(randn(N, 1));  % Implementation note.
 
-%% 4. 公式 (11) 计算
+%% Verification or construction step
 d_k = S * e;
 
-%% 5. 输出
-disp('=== 公式(11) 结果 ===');
+%% Verification or construction step
+disp('Output');
 disp('d_k = ');
 disp(d_k);

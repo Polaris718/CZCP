@@ -73,11 +73,11 @@ ylabel('Normalized MSE');
 legend('CZCP theory', 'CZCP Monte Carlo', 'Lower bound', ...
     'Random theory', 'Random Monte Carlo', 'Location', 'southwest');
 title('Monte Carlo LS Channel Estimation Verification');
-saveas(gcf, '蒙特卡洛_信道估计MSE验证.png');
+saveas(gcf, 'monte_carlo_channel_mse.png');
 
 fprintf('Saved:\n');
 fprintf('  monte_carlo_channel_results.mat\n');
-fprintf('  蒙特卡洛_信道估计MSE验证.png\n');
+fprintf('  monte_carlo_channel_mse.png\n');
 
 function mse = empirical_ls_mse(X, noise_var, num_trials)
     num_params = size(X, 2);

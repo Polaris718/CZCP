@@ -78,7 +78,7 @@ xlabel('SNR (dB)');
 ylabel('Normalized MSE');
 legend('CZCP training', 'Lower bound', 'Random same-support training', 'Location', 'southwest');
 title('Section IV CZCP-SM Training MSE Experiment');
-saveas(gcf, '第4节_MSE性能对比.png');
+saveas(gcf, 'section4_mse_comparison.png');
 
 fprintf('\nMSE table:\n');
 fprintf('SNR(dB)   CZCP-MSE        Bound           Random-MSE\n');

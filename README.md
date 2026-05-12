@@ -1,6 +1,5 @@
-# CZCP
+# CZCP MATLAB Reproduction Project
 
+MATLAB code for the graduation-design reproduction of CZCP-based optimal training sequences.
 
-毕业设计代码
-
-<测试修改后的代码上传功能>
+This repository contains sequence construction, verification scripts, Section IV training-matrix experiments, Fig. 6 style reproduction, and Monte Carlo LS channel-estimation validation.

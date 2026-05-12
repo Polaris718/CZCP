@@ -1,13 +1,12 @@
-%% CZCS条件验证
+%% CZCS condition verification
 function [is_valid, results] = verify_czcs(czcs_set, Z)
-    % 输入：
-    %   czcs_set - CZCS序列集，czcs_set(m).seq 为第m条序列
-    %   Z        - 零相关区宽度
-    % 输出：
-    %   is_valid - 布尔值，是否满足CZCS条件
-    %   results  - 验证结果详情
+    % Input:
+    %   czcs_set - CZCS sequence set; czcs_set(m).seq is sequence m.
+    %   Z        - zero-correlation zone width.
+    % Output:
+    %   is_valid - true when the CZCS conditions are satisfied.
+    %   results  - detailed verification values.
 
-    % 强制初始化输出参数
     is_valid = false;
     results = struct();
     results.C1_vals = [];
@@ -19,19 +18,19 @@ function [is_valid, results] = verify_czcs(czcs_set, Z)
 
     M = length(czcs_set);
     if M == 0
-        error('czcs_set为空');
+        error('czcs_set is empty.');
     end
     N = length(czcs_set(1).seq);
     for m = 1:M
         if length(czcs_set(m).seq) ~= N
-            error('第%d条序列长度不一致', m);
+            error('Sequence %d has an inconsistent length.', m);
         end
     end
-    
+
     T1 = 1:Z;
     T2 = (N-Z):(N-1);
     tau_all = -(N-1):N-1;
-    
+
     AAC_sum = zeros(size(tau_all));
     for m = 1:M
         [~, rho_m] = aperiodic_autocorr(czcs_set(m).seq);
@@ -40,10 +39,10 @@ function [is_valid, results] = verify_czcs(czcs_set, Z)
     idx_C1 = ismember(abs(tau_all), [T1, T2]);
     C1_vals = AAC_sum(idx_C1);
     valid_C1 = all(abs(C1_vals) < 1e-10);
-    
+
     ACC_sum = zeros(size(tau_all));
     for m = 1:M
-        m_next = mod(m, M) + 1; % 循环相邻索引
+        m_next = mod(m, M) + 1;
         a_m = czcs_set(m).seq;
         a_next = czcs_set(m_next).seq;
         [~, rho_mn] = aperiodic_crosscorr(a_m, a_next);
@@ -52,9 +51,9 @@ function [is_valid, results] = verify_czcs(czcs_set, Z)
     idx_C2 = ismember(abs(tau_all), T2);
     C2_vals = ACC_sum(idx_C2);
     valid_C2 = all(abs(C2_vals) < 1e-10);
-    
+
     is_valid = valid_C1 && valid_C2;
-    
+
     results.C1_vals = C1_vals;
     results.C2_vals = C2_vals;
     results.tau_C1 = tau_all(idx_C1);

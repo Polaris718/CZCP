@@ -1,25 +1,25 @@
-% 公式(6)：定义长度为2^μ的行向量g △q [g0, g1, ..., g_{2^μ -1}]
+% Implementation note.
 clear; clc;
 
-mu = 3;          % 向量长度参数：长度 = 2^mu
-g_gen_mode = 1;  % 生成模式：1=自动生成(0到2^mu-1)，2=手动自定义
+mu = 3;  % Implementation note.
+g_gen_mode = 1;  % Implementation note.
 
-%% 2. 核心计算：生成向量g
-len_g = 2^mu;  % 计算向量长度（2^μ）
+%% Verification or construction step
+len_g = 2^mu;  % Implementation note.
 
-% 模式1：自动生成连续序列（匹配公式默认形式）
+% Implementation note.
 if g_gen_mode == 1
-    g = 0 : len_g - 1;  % 行向量，g0=0, g1=1,...,g_{2^μ-1}=2^μ-1
-% 模式2：手动自定义向量（需保证长度=2^mu）
+    g = 0 : len_g - 1;  % Implementation note.
+% Implementation note.
 elseif g_gen_mode == 2
-    % 示例：mu=3时自定义长度为8的向量，可替换为任意值
+    % Implementation note.
     g = [0, 2, 4, 6, 1, 3, 5, 7];
 else
-    error('g_gen_mode只能为1或2！');
+    error('Invalid input');
 end
 
-%% 3. 结果输出
-disp('=== 公式(6) - 向量g生成结果 ===');
-disp(['参数μ = ', num2str(mu), ' → 向量长度 = 2^μ = ', num2str(len_g)]);
-disp('向量g（行向量）：');
+%% Verification or construction step
+disp('Output');
+disp(['Output', num2str(mu), 'Output', num2str(len_g)]);
+disp('Output');
 disp(g);

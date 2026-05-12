@@ -1,9 +1,9 @@
-%% 公式(9) 二进制向量组合与线性计算
-%% 包含：3维二进制κ向量全集 + 全1向量 + x1/x3 + 2x1x3+1 计算
+%% Verification or construction step
+%% Verification or construction step
 clear; clc;
 
-%% 公式(9) 3维二进制向量 κ1,κ2,κ3 全集
-% 8种组合：[000;100;010;110;001;101;011;111]
+%% Verification or construction step
+% Implementation note.
 kappa_set = [
     0 0 0;
     1 0 0;
@@ -14,23 +14,23 @@ kappa_set = [
     0 1 1;
     1 1 1;
 ];
-disp('公式(9) 3维二进制向量全集 κ1,κ2,κ3');
+disp('Output');
 disp(kappa_set);
 
-%% 2. 定义基础向量
-one_vec  = [1,1,1,1,1,1,1,1];       % 全1向量 1
-x1_vec   = [0,1,0,1,0,1,0,1];       % 向量 x1
-x3_vec   = [0,0,0,0,1,1,1,1];       % 向量 x3
+%% Verification or construction step
+one_vec  = [1,1,1,1,1,1,1,1];  % Implementation note.
+x1_vec   = [0,1,0,1,0,1,0,1];  % Implementation note.
+x3_vec   = [0,0,0,0,1,1,1,1];  % Implementation note.
 
-%% 3. 公式核心计算：2*x1*x3 + 1
+%% Verification or construction step
 calc_vec = 2 * x1_vec .* x3_vec + one_vec;
 
-%% 4. 输出所有结果
-disp('=== 公式(9) 全1向量 1 ===');
+%% Verification or construction step
+disp('Output');
 disp(one_vec);
-disp('=== 公式(9) 向量 x1 ===');
+disp('Output');
 disp(x1_vec);
-disp('=== 公式(9) 向量 x3 ===');
+disp('Output');
 disp(x3_vec);
-disp('=== 公式(9) 计算结果 2x1x3 + 1 ===');
+disp('Output');
 disp(calc_vec);

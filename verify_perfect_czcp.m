@@ -1,24 +1,24 @@
 function [is_perfect, results] = verify_perfect_czcp(a, b)
     N = length(a);
-    Z = N/2; % 完美CZCP：Z=N/2
+    Z = N/2; % Perfect CZCP: Z = N/2.
     [tau_all, rho_a] = aperiodic_autocorr(a);
     [~, rho_b] = aperiodic_autocorr(b);
     [~, rho_ab] = aperiodic_crosscorr(a, b);
     [~, rho_ba] = aperiodic_crosscorr(b, a);
-    
-    % 定义时延集合
+
+    % Define delay sets.
     T1 = 1:Z;
     T2 = (N-Z):(N-1);
     idx_C1 = ismember(abs(tau_all), [T1, T2]);
     idx_C2 = ismember(abs(tau_all), T2);
-    
-    % 验证C1和C2条件
+
+    % Verify C1 and C2 conditions.
     C1_vals = rho_a(idx_C1) + rho_b(idx_C1);
     C2_vals = rho_ab(idx_C2) + rho_ba(idx_C2);
-    
+
     is_valid_C1 = all(abs(C1_vals) < 1e-10);
     is_valid_C2 = all(abs(C2_vals) < 1e-10);
-    
+
     is_perfect = is_valid_C1 && is_valid_C2;
     results.C1_vals = C1_vals;
     results.C2_vals = C2_vals;

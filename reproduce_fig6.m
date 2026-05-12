@@ -101,7 +101,7 @@ title('(b) EbNo = 16 dB, E = 32');
 legend('CZCP', 'GCP', 'm-sequence', 'Barker', 'Gold', ...
     'Zadoff-Chu', 'Random', 'Minimum MSE', 'Location', 'northwest');
 
-saveas(gcf, '图6_复现总览.png');
+saveas(gcf, 'fig6_reproduction_both.png');
 
 figure('Color', 'w');
 for j_idx = 1:length(fig6a_J_list)
@@ -120,7 +120,7 @@ legend('CZCP J=2', 'Random J=2', 'Min J=2', ...
     'CZCP J=6', 'Random J=6', 'Min J=6', ...
     'CZCP J=18', 'Random J=18', 'Min J=18', ...
     'Location', 'southwest');
-saveas(gcf, '图6a_MSE随EbNo变化.png');
+saveas(gcf, 'fig6a_reproduction.png');
 
 figure('Color', 'w');
 plot(fig6b_paths, fig6b.proposed_db, 'o-', 'LineWidth', 1.8); hold on;
@@ -137,13 +137,13 @@ ylabel('MSE (dB)');
 title('Fig. 6(b) Reproduction');
 legend('CZCP', 'GCP', 'm-sequence', 'Barker', 'Gold', ...
     'Zadoff-Chu', 'Random', 'Minimum MSE', 'Location', 'northwest');
-saveas(gcf, '图6b_MSE随多径数变化.png');
+saveas(gcf, 'fig6b_reproduction.png');
 
 fprintf('Saved:\n');
 fprintf('  fig6_reproduction_results.mat\n');
-fprintf('  图6_复现总览.png\n');
-fprintf('  图6a_MSE随EbNo变化.png\n');
-fprintf('  图6b_MSE随多径数变化.png\n');
+fprintf('  fig6_reproduction_both.png\n');
+fprintf('  fig6a_reproduction.png\n');
+fprintf('  fig6b_reproduction.png\n');
 
 function fig6a = compute_fig6a(Nt, a, b, paths, J_list, ebno_db, random_trials)
     theta = length(a);

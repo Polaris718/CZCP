@@ -1,16 +1,16 @@
-# CZCP-SM 论文实验复现说明
+# CZCP-SM Paper Reproduction Summary
 
-本文档总结当前 MATLAB 工程对论文实验的复现状态。
+This document summarizes the current MATLAB reproduction status for the CZCP-SM training-sequence paper.
 
-## 运行入口
+## Run Entry Point
 
-推荐在 MATLAB 中运行：
+Run the full experiment suite in MATLAB with:
 
 ```matlab
 run_all_paper_experiments
 ```
 
-该脚本会依次执行：
+The runner executes:
 
 - `example6`
 - `definite6`
@@ -19,83 +19,76 @@ run_all_paper_experiments
 - `reproduce_fig6`
 - `monte_carlo_channel_simulation`
 
-并检查主要 `.mat` 和 `.png` 输出文件是否生成。通过该入口运行时，脚本会开启图窗保留模式，避免后续实验中的 `close all` 关闭前面已经生成的图。运行结束后还会把主要 PNG 结果重新打开为持久预览窗口。
+It checks the main `.mat` and `.png` outputs. When launched through this entry point, figure windows are preserved so later scripts do not close earlier plots. At the end, the main PNG outputs are reopened as persistent preview figures.
 
-运行日志保存为：
+The run log is saved as:
 
 - `paper_experiment_run_log.txt`
 
-如果只运行单个脚本，但也想保留旧图窗，可以先执行：
+To preserve figure windows when running a single script, execute:
 
 ```matlab
 setappdata(0, 'KEEP_PAPER_FIGURES', true)
 ```
 
-## 已实现内容
+## Implemented Content
 
-- Section II/III 的相关函数、CZCP/CZCS 构造与验证。
-- Section IV 的训练矩阵 `X`、Gram 矩阵 `X' * X`、理论 LS-MSE 计算。
-- CZCP 与随机同支撑训练的 Section IV 性能对比。
-- Fig. 6(a) 风格复现：`Nt = 4`，多径数为 `5`，`J = 2, 6, 18`。
-- Fig. 6(b) 对照曲线：CZCP、GCP、m-sequence、Barker、Gold、Zadoff-Chu、Random、Minimum MSE。
-- Barker 对照已改为论文描述的 `4 x 104` 稀疏训练矩阵结构。
-- Monte Carlo 随机信道 LS 估计验证。
+- Section II/III correlation utilities and CZCP/CZCS construction checks.
+- Section IV training matrix `X`, Gram matrix `X' * X`, and theoretical LS-MSE computation.
+- CZCP versus random same-support Section IV performance comparison.
+- Fig. 6(a) style reproduction with `Nt = 4`, path number `5`, and `J = 2, 6, 18`.
+- Fig. 6(b) comparison curves for CZCP, GCP, m-sequence, Barker, Gold, Zadoff-Chu, Random, and Minimum MSE.
+- Barker baseline with the paper-described `4 x 104` sparse training structure.
+- Monte Carlo random-channel LS estimation validation.
 
-## 输出文件
+## Output Files
 
-图片文件已统一改为中文名：
+Output images now use English filenames:
 
 - `section4_experiment_results.mat`
-- `第4节_MSE性能对比.png`
-- `第4节_Gram正交性误差对比.png`
+- `section4_mse_comparison.png`
+- `section4_gram_error_comparison.png`
 - `fig6_reproduction_results.mat`
-- `图6_复现总览.png`
-- `图6a_MSE随EbNo变化.png`
-- `图6b_MSE随多径数变化.png`
+- `fig6_reproduction_both.png`
+- `fig6a_reproduction.png`
+- `fig6b_reproduction.png`
 - `monte_carlo_channel_results.mat`
-- `蒙特卡洛_信道估计MSE验证.png`
+- `monte_carlo_channel_mse.png`
 
-旧的英文 PNG 文件如果已经存在，不会被自动删除；重新运行实验后会生成中文名版本。
+Older Chinese-named PNG files may still exist from previous runs; they are no longer produced by the current scripts.
 
-## 需要标注的限制
+## Limitations
 
-- 暂未找到作者官方 Fig. 6 MATLAB 代码。
-- Gold 曲线使用标准 length-31 Gold sequence 构造。
-- 由于缺少作者官方 CAN 序列参数，本文不再绘制 CAN 曲线，避免引入非官方对照。
-- 因此 Fig. 6(b) 可称为“按论文结构复现的对照实验”，但不包含论文原图中的 CAN 官方曲线。
+- The authors' official Fig. 6 MATLAB code was not available.
+- The Gold curve uses a standard length-31 Gold sequence construction.
+- The CAN curve is omitted because the official CAN coefficients are unavailable.
+- Therefore, Fig. 6(b) should be described as a paper-structure reproduction rather than a one-to-one reproduction of every official curve.
 
-## 验证状态
+## Verification Status
 
-本机 PowerShell 中已成功运行：
+The full suite was successfully run locally with:
 
 ```powershell
 matlab -batch "run_all_paper_experiments"
 ```
 
-验证时间：2026-05-06 18:52:00 至 18:52:27。
+Verification time: 2026-05-06 18:52:00 to 18:52:27.
 
-运行结果：
+Run result:
 
-- `example6`：PASS。
-- `definite6`：PASS。
-- `main_section4_experiment`：PASS。
-- `plot_section4_comparison`：PASS。
-- `reproduce_fig6`：PASS。
-- `monte_carlo_channel_simulation`：PASS。
-- 所有主要 `.mat` 和中文名 `.png` 输出文件均检查通过。
-- 运行结束后已自动展示所有主要输出图。
+- `example6`: PASS.
+- `definite6`: PASS.
+- `main_section4_experiment`: PASS.
+- `plot_section4_comparison`: PASS.
+- `reproduce_fig6`: PASS.
+- `monte_carlo_channel_simulation`: PASS.
+- All main `.mat` and `.png` output artifacts were generated.
+- All main output figures were displayed at the end of the run.
 
-关键数值：
+Key values:
 
-- CZCP Gram 最大误差：`1.42e-15`。
-- Random Gram 最大误差：`8.94e+00`。
-- 每根发射天线训练能量：`E = 32`。
-- CZCP 理论 MSE 与 lower bound 完全贴合，例如 SNR=0 dB 时均为 `3.1250e-02`，SNR=30 dB 时均为 `3.1250e-05`。
-- Monte Carlo 结果与理论 LS-MSE 一致，例如 SNR=0 dB 时 CZCP empirical/theory 为 `3.1176e-02 / 3.1250e-02`，SNR=30 dB 时为 `3.1515e-05 / 3.1250e-05`。
-
-最终检查标准：
-
-- 已满足：所有主脚本显示 `PASS`。
-- 已满足：上述中文名 PNG 均已生成并在运行结束后持续显示。
-- 已满足：CZCP 曲线贴近 Minimum MSE / Lower bound。
-- 已满足：Monte Carlo 曲线与理论 LS-MSE 曲线趋势一致。
+- CZCP Gram maximum error: `1.42e-15`.
+- Random Gram maximum error: `8.94e+00`.
+- Per-transmit-antenna training energy: `E = 32`.
+- The CZCP theoretical MSE matches the lower bound, e.g. `3.1250e-02` at SNR = 0 dB and `3.1250e-05` at SNR = 30 dB.
+- Monte Carlo results match the theoretical LS-MSE trend, e.g. CZCP empirical/theory values are `3.1176e-02 / 3.1250e-02` at SNR = 0 dB and `3.1515e-05 / 3.1250e-05` at SNR = 30 dB.
