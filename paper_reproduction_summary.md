@@ -12,11 +12,11 @@ run_all_paper_experiments
 
 The runner executes:
 
-- `example6`
+- `verify_czcp_conditions`
 - `definite6`
-- `main_section4_experiment`
-- `plot_section4_comparison`
-- `reproduce_fig6`
+- `run_training_mse_experiment`
+- `plot_training_mse_comparison`
+- `reproduce_mse_comparison`
 - `monte_carlo_channel_simulation`
 
 It checks the main `.mat` and `.png` outputs. When launched through this entry point, figure windows are preserved so later scripts do not close earlier plots. At the end, the main PNG outputs are reopened as persistent preview figures.
@@ -34,10 +34,10 @@ setappdata(0, 'KEEP_PAPER_FIGURES', true)
 ## Implemented Content
 
 - Section II/III correlation utilities and CZCP/CZCS construction checks.
-- Section IV training matrix `X`, Gram matrix `X' * X`, and theoretical LS-MSE computation.
-- CZCP versus random same-support Section IV performance comparison.
-- Fig. 6(a) style reproduction with `Nt = 4`, path number `5`, and `J = 2, 6, 18`.
-- Fig. 6(b) comparison curves for CZCP, GCP, m-sequence, Barker, Gold, Zadoff-Chu, Random, and Minimum MSE.
+- Training matrix `X`, Gram matrix `X' * X`, and theoretical LS-MSE computation.
+- CZCP versus random same-support performance comparison.
+- MSE versus EbNo comparison with `Nt = 4`, path number `5`, and `J = 2, 6, 18`.
+- MSE versus path-number comparison curves for CZCP, GCP, m-sequence, Barker, Gold, Zadoff-Chu, Random, and Minimum MSE.
 - Barker baseline with the paper-described `4 x 104` sparse training structure.
 - Monte Carlo random-channel LS estimation validation.
 
@@ -45,13 +45,14 @@ setappdata(0, 'KEEP_PAPER_FIGURES', true)
 
 Output images now use English filenames:
 
-- `section4_experiment_results.mat`
-- `section4_mse_comparison.png`
-- `section4_gram_error_comparison.png`
-- `fig6_reproduction_results.mat`
-- `fig6_reproduction_both.png`
-- `fig6a_reproduction.png`
-- `fig6b_reproduction.png`
+- `training_mse_experiment_results.mat`
+- `training_mse_experiment.png`
+- `training_mse_comparison.png`
+- `training_gram_error_comparison.png`
+- `mse_comparison_results.mat`
+- `mse_comparison_both.png`
+- `mse_vs_ebno.png`
+- `mse_vs_paths.png`
 - `monte_carlo_channel_results.mat`
 - `monte_carlo_channel_mse.png`
 
@@ -59,10 +60,10 @@ Older Chinese-named PNG files may still exist from previous runs; they are no lo
 
 ## Limitations
 
-- The authors' official Fig. 6 MATLAB code was not available.
+- The authors' official MATLAB code was not available.
 - The Gold curve uses a standard length-31 Gold sequence construction.
 - The CAN curve is omitted because the official CAN coefficients are unavailable.
-- Therefore, Fig. 6(b) should be described as a paper-structure reproduction rather than a one-to-one reproduction of every official curve.
+- Therefore, the path-number comparison should be described as a paper-structure reproduction rather than a one-to-one reproduction of every official curve.
 
 ## Verification Status
 
@@ -76,11 +77,11 @@ Verification time: 2026-05-06 18:52:00 to 18:52:27.
 
 Run result:
 
-- `example6`: PASS.
+- `verify_czcp_conditions`: PASS.
 - `definite6`: PASS.
-- `main_section4_experiment`: PASS.
-- `plot_section4_comparison`: PASS.
-- `reproduce_fig6`: PASS.
+- `run_training_mse_experiment`: PASS.
+- `plot_training_mse_comparison`: PASS.
+- `reproduce_mse_comparison`: PASS.
 - `monte_carlo_channel_simulation`: PASS.
 - All main `.mat` and `.png` output artifacts were generated.
 - All main output figures were displayed at the end of the run.

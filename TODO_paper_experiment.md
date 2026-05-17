@@ -7,9 +7,9 @@ This document records the current MATLAB project status and remaining tasks for 
 - Section II-A correlation functions: aperiodic correlation, cyclic correlation, autocorrelation, and cross-correlation.
 - Section II-B basic construction utilities for GBF, GCP, and q-ary complex exponential sequences.
 - Section III CZCP definitions, properties, examples, perfect CZCP construction, and CZCS verification.
-- Section IV training matrix framework: `X`, Gram matrix `X' * X`, and theoretical LS-MSE.
-- Section IV comparison plotting script: `plot_section4_comparison.m`.
-- Fig. 6 style reproduction script: `reproduce_fig6.m`.
+- Training matrix framework: `X`, Gram matrix `X' * X`, and theoretical LS-MSE.
+- Training comparison plotting script: `plot_training_mse_comparison.m`.
+- MSE comparison reproduction script: `reproduce_mse_comparison.m`.
 - Monte Carlo random-channel LS verification script: `monte_carlo_channel_simulation.m`.
 - Full experiment runner: `run_all_paper_experiments.m`.
 
@@ -22,29 +22,29 @@ This document records the current MATLAB project status and remaining tasks for 
 - `verify_perfect_czcp.m`: verifies perfect CZCP C1/C2 conditions.
 - `czcs_from_czcp.m`: constructs CZCSs from CZCPs.
 - `verify_czcs.m`: verifies CZCS conditions.
-- `example6.m`: verifies q-ary CZCP construction.
+- `verify_czcp_conditions.m`: verifies q-ary CZCP construction.
 - `definite6.m`: verifies CZCS construction.
 
-### Section IV Training Matrix and MSE
+### Training Matrix and MSE
 
 - `build_circular_toeplitz.m`: builds a circular Toeplitz matrix from one antenna training sequence.
 - `build_training_matrix.m`: concatenates Toeplitz blocks into the full training matrix `X`.
 - `build_czcp_sm_training.m`: builds sparse SM training matrices from a CZCP.
 - `build_random_sm_training.m`: builds a same-support random q-PSK baseline.
 - `training_mse_metrics.m`: computes `X' * X`, optimality errors, normalized MSE, and the theoretical lower bound.
-- `main_section4_experiment.m`: main Section IV experiment script.
-- `plot_section4_comparison.m`: plots CZCP versus random training comparisons.
+- `run_training_mse_experiment.m`: main training experiment script.
+- `plot_training_mse_comparison.m`: plots CZCP versus random training comparisons.
 
-### Fig. 6 Reproduction
+### MSE Comparison Reproduction
 
-- `reproduce_fig6.m`: generates Fig. 6(a) and Fig. 6(b) style comparison plots.
+- `reproduce_mse_comparison.m`: generates MSE comparison plots.
 
 Expected outputs:
 
-- `fig6_reproduction_results.mat`
-- `fig6_reproduction_both.png`
-- `fig6a_reproduction.png`
-- `fig6b_reproduction.png`
+- `mse_comparison_results.mat`
+- `mse_comparison_both.png`
+- `mse_vs_ebno.png`
+- `mse_vs_paths.png`
 
 ## Experiment Logic
 
@@ -66,9 +66,9 @@ If `X' * X` is close to `E * I`, the training matrix is nearly orthogonal and th
 MSE_min = noise_var / E
 ```
 
-## Current Fig. 6 Settings
+## Current MSE Comparison Settings
 
-### Fig. 6(a)
+### MSE versus EbNo
 
 - `Nt = 4`
 - path number `5`
@@ -78,9 +78,9 @@ MSE_min = noise_var / E
 
 Output:
 
-- `fig6a_reproduction.png`
+- `mse_vs_ebno.png`
 
-### Fig. 6(b)
+### MSE versus Number of Paths
 
 - `Nt = 4`
 - `EbNo = 16 dB`
@@ -100,9 +100,9 @@ Current curves:
 
 Output:
 
-- `fig6b_reproduction.png`
+- `mse_vs_paths.png`
 
-Note: the CAN curve is omitted because the authors' official CAN coefficients or Fig. 6 code were not available. This avoids including a non-official CAN substitute in the performance analysis.
+Note: the CAN curve is omitted because the authors' official CAN coefficients or official code were not available. This avoids including a non-official CAN substitute in the performance analysis.
 
 ## Completed Updates
 
@@ -120,11 +120,12 @@ The script executes all main experiments, checks outputs, preserves figure windo
 
 The current scripts generate English-named image files:
 
-- `section4_mse_comparison.png`
-- `section4_gram_error_comparison.png`
-- `fig6_reproduction_both.png`
-- `fig6a_reproduction.png`
-- `fig6b_reproduction.png`
+- `training_mse_experiment.png`
+- `training_mse_comparison.png`
+- `training_gram_error_comparison.png`
+- `mse_comparison_both.png`
+- `mse_vs_ebno.png`
+- `mse_vs_paths.png`
 - `monte_carlo_channel_mse.png`
 
 Older Chinese-named PNG files may still remain from previous runs.
@@ -133,7 +134,7 @@ Older Chinese-named PNG files may still remain from previous runs.
 
 - Gold sequence training is included.
 - The non-official CAN substitute curve has been removed.
-- The current Fig. 6(b) does not contain a CAN curve.
+- The current path-number comparison does not contain a CAN curve.
 - If official CAN coefficients become available later, the official CAN curve can be added separately.
 
 ### Barker Baseline
@@ -152,9 +153,9 @@ Outputs:
 
 ## Remaining Work
 
-1. Compare the Fig. 6(a) and Fig. 6(b) axis ranges and units against the original paper figure.
+1. Compare the MSE comparison axis ranges and units against the original paper figure.
 2. Add the official CAN curve only if the authors' CAN coefficients or official Fig. 6 code become available.
-3. Clearly state in any final report that Fig. 6(b) does not include the CAN curve because official CAN parameters are unavailable.
+3. Clearly state in any final report that the path-number comparison does not include the CAN curve because official CAN parameters are unavailable.
 
 ## Local Verification Record
 
@@ -166,11 +167,11 @@ matlab -batch "run_all_paper_experiments"
 
 Run result:
 
-- `example6`: PASS.
+- `verify_czcp_conditions`: PASS.
 - `definite6`: PASS.
-- `main_section4_experiment`: PASS.
-- `plot_section4_comparison`: PASS.
-- `reproduce_fig6`: PASS.
+- `run_training_mse_experiment`: PASS.
+- `plot_training_mse_comparison`: PASS.
+- `reproduce_mse_comparison`: PASS.
 - `monte_carlo_channel_simulation`: PASS.
 
 Key values:

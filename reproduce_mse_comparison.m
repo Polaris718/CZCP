@@ -1,14 +1,14 @@
 clearvars; if ~isappdata(0, 'KEEP_PAPER_FIGURES') || ~getappdata(0, 'KEEP_PAPER_FIGURES'), close all; end; clc;
 
-% Reproduce Fig. 6 style comparisons from the CZCP-SM training paper.
+% Reproduce MSE comparisons from the CZCP-SM training paper.
 %
-% Fig. 6(a): MSE versus EbNo per transmit antenna, path number = 5,
+% MSE versus EbNo per transmit antenna, path number = 5,
 %            J in {2, 6, 18}, proposed CZCP versus random sparse training.
-% Fig. 6(b): MSE versus number of paths at EbNo = 16 dB and E = 32,
+% MSE versus number of paths at EbNo = 16 dB and E = 32,
 %            proposed CZCP versus several seed-sequence baselines.
 %
 % Notes:
-% - No official Fig. 6 MATLAB code was found locally. Gold is reproduced
+% - No official MATLAB code was found locally. Gold is reproduced
 %   from a standard deterministic construction, while the training matrix
 %   dimensions follow the paper description.
 % - All curves are computed from the LS-MSE expression
@@ -18,17 +18,17 @@ rng(7);
 
 Nt = 4;
 num_random_trials = 300;
-fig6a_ebno_db = 0:2:20;
-fig6a_J_list = [2, 6, 18];
-fig6a_paths = 5;
+ebno_db_grid = 0:2:20;
+J_list = [2, 6, 18];
+fixed_paths = 5;
 
 % Table I perfect binary (N=8,Z=4)-CZCP.
 a8 = [1, 1, 1, -1, 1, 1, -1, 1];
 b8 = [1, 1, 1, -1, -1, -1, 1, -1];
 
-fprintf('Computing Fig. 6(a)...\n');
-fig6a = compute_fig6a(Nt, a8, b8, fig6a_paths, fig6a_J_list, ...
-    fig6a_ebno_db, num_random_trials);
+fprintf('Computing MSE versus EbNo...\n');
+ebno_curves = compute_ebno_mse_curves(Nt, a8, b8, fixed_paths, J_list, ...
+    ebno_db_grid, num_random_trials);
 
 % Table I perfect binary (N=16,Z=8)-CZCP.
 a16 = [1, 1, 1, -1, 1, 1, -1, 1, 1, -1, 1, 1, 1, -1, -1, -1];
@@ -55,25 +55,25 @@ for row = 1:4
     zc32(row, :) = zadoff_chu_seq(row * 2 - 1, 32);
 end
 
-fig6b_paths = 3:13;
-fig6b_ebno_db = 16;
-fprintf('Computing Fig. 6(b)...\n');
-fig6b = compute_fig6b(Nt, a16, b16, gcp_a16, gcp_b16, mseq31, ...
-    barker13, gold31, zc32, fig6b_paths, fig6b_ebno_db, num_random_trials);
+path_grid = 3:13;
+fixed_ebno_db = 16;
+fprintf('Computing MSE versus number of paths...\n');
+path_curves = compute_path_mse_curves(Nt, a16, b16, gcp_a16, gcp_b16, mseq31, ...
+    barker13, gold31, zc32, path_grid, fixed_ebno_db, num_random_trials);
 
-save('fig6_reproduction_results.mat', 'fig6a', 'fig6b');
+save('mse_comparison_results.mat', 'ebno_curves', 'path_curves');
 
 figure('Color', 'w', 'Position', [100, 100, 1100, 450]);
 tiledlayout(1, 2, 'TileSpacing', 'compact', 'Padding', 'compact');
 
 nexttile;
-colors = lines(length(fig6a_J_list));
-for j_idx = 1:length(fig6a_J_list)
-    plot(fig6a_ebno_db, fig6a.proposed_db(j_idx, :), '-', ...
+colors = lines(length(J_list));
+for j_idx = 1:length(J_list)
+    plot(ebno_db_grid, ebno_curves.proposed_db(j_idx, :), '-', ...
         'Color', colors(j_idx, :), 'LineWidth', 1.7); hold on;
-    plot(fig6a_ebno_db, fig6a.random_db(j_idx, :), '--', ...
+    plot(ebno_db_grid, ebno_curves.random_db(j_idx, :), '--', ...
         'Color', colors(j_idx, :), 'LineWidth', 1.5);
-    plot(fig6a_ebno_db, fig6a.bound_db(j_idx, :), ':', ...
+    plot(ebno_db_grid, ebno_curves.bound_db(j_idx, :), ':', ...
         'Color', colors(j_idx, :), 'LineWidth', 1.4);
 end
 grid on;
@@ -86,14 +86,14 @@ legend('CZCP J=2', 'Random J=2', 'Min J=2', ...
     'Location', 'southwest');
 
 nexttile;
-plot(fig6b_paths, fig6b.proposed_db, 'o-', 'LineWidth', 1.8); hold on;
-plot(fig6b_paths, fig6b.gcp_db, 's-', 'LineWidth', 1.5);
-plot(fig6b_paths, fig6b.mseq_db, '^-', 'LineWidth', 1.5);
-plot(fig6b_paths, fig6b.barker_db, 'd-', 'LineWidth', 1.5);
-plot(fig6b_paths, fig6b.gold_db, 'v-', 'LineWidth', 1.5);
-plot(fig6b_paths, fig6b.zc_db, 'x-', 'LineWidth', 1.5);
-plot(fig6b_paths, fig6b.random_db, '--', 'LineWidth', 1.5);
-plot(fig6b_paths, fig6b.bound_db, 'k:', 'LineWidth', 1.4);
+plot(path_grid, path_curves.proposed_db, 'o-', 'LineWidth', 1.8); hold on;
+plot(path_grid, path_curves.gcp_db, 's-', 'LineWidth', 1.5);
+plot(path_grid, path_curves.mseq_db, '^-', 'LineWidth', 1.5);
+plot(path_grid, path_curves.barker_db, 'd-', 'LineWidth', 1.5);
+plot(path_grid, path_curves.gold_db, 'v-', 'LineWidth', 1.5);
+plot(path_grid, path_curves.zc_db, 'x-', 'LineWidth', 1.5);
+plot(path_grid, path_curves.random_db, '--', 'LineWidth', 1.5);
+plot(path_grid, path_curves.bound_db, 'k:', 'LineWidth', 1.4);
 grid on;
 xlabel('Number of multi-paths');
 ylabel('MSE (dB)');
@@ -101,56 +101,56 @@ title('(b) EbNo = 16 dB, E = 32');
 legend('CZCP', 'GCP', 'm-sequence', 'Barker', 'Gold', ...
     'Zadoff-Chu', 'Random', 'Minimum MSE', 'Location', 'northwest');
 
-saveas(gcf, 'fig6_reproduction_both.png');
+saveas(gcf, 'mse_comparison_both.png');
 
 figure('Color', 'w');
-for j_idx = 1:length(fig6a_J_list)
-    plot(fig6a_ebno_db, fig6a.proposed_db(j_idx, :), '-', ...
+for j_idx = 1:length(J_list)
+    plot(ebno_db_grid, ebno_curves.proposed_db(j_idx, :), '-', ...
         'Color', colors(j_idx, :), 'LineWidth', 1.7); hold on;
-    plot(fig6a_ebno_db, fig6a.random_db(j_idx, :), '--', ...
+    plot(ebno_db_grid, ebno_curves.random_db(j_idx, :), '--', ...
         'Color', colors(j_idx, :), 'LineWidth', 1.5);
-    plot(fig6a_ebno_db, fig6a.bound_db(j_idx, :), ':', ...
+    plot(ebno_db_grid, ebno_curves.bound_db(j_idx, :), ':', ...
         'Color', colors(j_idx, :), 'LineWidth', 1.4);
 end
 grid on;
 xlabel('EbNo per TA (dB)');
 ylabel('MSE (dB)');
-title('Fig. 6(a) Reproduction');
+title('MSE versus EbNo');
 legend('CZCP J=2', 'Random J=2', 'Min J=2', ...
     'CZCP J=6', 'Random J=6', 'Min J=6', ...
     'CZCP J=18', 'Random J=18', 'Min J=18', ...
     'Location', 'southwest');
-saveas(gcf, 'fig6a_reproduction.png');
+saveas(gcf, 'mse_vs_ebno.png');
 
 figure('Color', 'w');
-plot(fig6b_paths, fig6b.proposed_db, 'o-', 'LineWidth', 1.8); hold on;
-plot(fig6b_paths, fig6b.gcp_db, 's-', 'LineWidth', 1.5);
-plot(fig6b_paths, fig6b.mseq_db, '^-', 'LineWidth', 1.5);
-plot(fig6b_paths, fig6b.barker_db, 'd-', 'LineWidth', 1.5);
-plot(fig6b_paths, fig6b.gold_db, 'v-', 'LineWidth', 1.5);
-plot(fig6b_paths, fig6b.zc_db, 'x-', 'LineWidth', 1.5);
-plot(fig6b_paths, fig6b.random_db, '--', 'LineWidth', 1.5);
-plot(fig6b_paths, fig6b.bound_db, 'k:', 'LineWidth', 1.4);
+plot(path_grid, path_curves.proposed_db, 'o-', 'LineWidth', 1.8); hold on;
+plot(path_grid, path_curves.gcp_db, 's-', 'LineWidth', 1.5);
+plot(path_grid, path_curves.mseq_db, '^-', 'LineWidth', 1.5);
+plot(path_grid, path_curves.barker_db, 'd-', 'LineWidth', 1.5);
+plot(path_grid, path_curves.gold_db, 'v-', 'LineWidth', 1.5);
+plot(path_grid, path_curves.zc_db, 'x-', 'LineWidth', 1.5);
+plot(path_grid, path_curves.random_db, '--', 'LineWidth', 1.5);
+plot(path_grid, path_curves.bound_db, 'k:', 'LineWidth', 1.4);
 grid on;
 xlabel('Number of multi-paths');
 ylabel('MSE (dB)');
-title('Fig. 6(b) Reproduction');
+title('MSE versus Number of Paths');
 legend('CZCP', 'GCP', 'm-sequence', 'Barker', 'Gold', ...
     'Zadoff-Chu', 'Random', 'Minimum MSE', 'Location', 'northwest');
-saveas(gcf, 'fig6b_reproduction.png');
+saveas(gcf, 'mse_vs_paths.png');
 
 fprintf('Saved:\n');
-fprintf('  fig6_reproduction_results.mat\n');
-fprintf('  fig6_reproduction_both.png\n');
-fprintf('  fig6a_reproduction.png\n');
-fprintf('  fig6b_reproduction.png\n');
+fprintf('  mse_comparison_results.mat\n');
+fprintf('  mse_comparison_both.png\n');
+fprintf('  mse_vs_ebno.png\n');
+fprintf('  mse_vs_paths.png\n');
 
-function fig6a = compute_fig6a(Nt, a, b, paths, J_list, ebno_db, random_trials)
+function ebno_curves = compute_ebno_mse_curves(Nt, a, b, paths, J_list, ebno_db, random_trials)
     theta = length(a);
     channel_len = paths;
-    fig6a.proposed_db = zeros(length(J_list), length(ebno_db));
-    fig6a.random_db = zeros(length(J_list), length(ebno_db));
-    fig6a.bound_db = zeros(length(J_list), length(ebno_db));
+    ebno_curves.proposed_db = zeros(length(J_list), length(ebno_db));
+    ebno_curves.random_db = zeros(length(J_list), length(ebno_db));
+    ebno_curves.bound_db = zeros(length(J_list), length(ebno_db));
 
     for j_idx = 1:length(J_list)
         J = J_list(j_idx);
@@ -167,14 +167,14 @@ function fig6a = compute_fig6a(Nt, a, b, paths, J_list, ebno_db, random_trials)
 
         for snr_idx = 1:length(ebno_db)
             noise_var = 10^(-ebno_db(snr_idx) / 10);
-            fig6a.proposed_db(j_idx, snr_idx) = 10 * log10(noise_var * proposed_trace);
-            fig6a.random_db(j_idx, snr_idx) = 10 * log10(noise_var * random_trace);
-            fig6a.bound_db(j_idx, snr_idx) = 10 * log10(noise_var / E);
+            ebno_curves.proposed_db(j_idx, snr_idx) = 10 * log10(noise_var * proposed_trace);
+            ebno_curves.random_db(j_idx, snr_idx) = 10 * log10(noise_var * random_trace);
+            ebno_curves.bound_db(j_idx, snr_idx) = 10 * log10(noise_var / E);
         end
     end
 end
 
-function fig6b = compute_fig6b(Nt, czcp_a, czcp_b, gcp_a, gcp_b, mseq, ...
+function path_curves = compute_path_mse_curves(Nt, czcp_a, czcp_b, gcp_a, gcp_b, mseq, ...
     barker, gold, zc_rows, paths_list, ebno_db, random_trials)
 
     noise_var = 10^(-ebno_db / 10);
@@ -194,27 +194,27 @@ function fig6b = compute_fig6b(Nt, czcp_a, czcp_b, gcp_a, gcp_b, mseq, ...
     Omega_zc = normalize_training_energy( ...
         build_structure48_from_rows(zc_rows), E_target);
 
-    fig6b.proposed_db = zeros(size(paths_list));
-    fig6b.gcp_db = zeros(size(paths_list));
-    fig6b.mseq_db = zeros(size(paths_list));
-    fig6b.barker_db = zeros(size(paths_list));
-    fig6b.gold_db = zeros(size(paths_list));
-    fig6b.zc_db = zeros(size(paths_list));
-    fig6b.random_db = zeros(size(paths_list));
-    fig6b.bound_db = zeros(size(paths_list));
-    fig6b.notes = ['Gold uses a standard length-31 preferred-pair ' ...
+    path_curves.proposed_db = zeros(size(paths_list));
+    path_curves.gcp_db = zeros(size(paths_list));
+    path_curves.mseq_db = zeros(size(paths_list));
+    path_curves.barker_db = zeros(size(paths_list));
+    path_curves.gold_db = zeros(size(paths_list));
+    path_curves.zc_db = zeros(size(paths_list));
+    path_curves.random_db = zeros(size(paths_list));
+    path_curves.bound_db = zeros(size(paths_list));
+    path_curves.notes = ['Gold uses a standard length-31 preferred-pair ' ...
         'construction. CAN is omitted because official CAN coefficients ' ...
         'were not available.'];
 
     for idx = 1:length(paths_list)
         channel_len = paths_list(idx);
-        fig6b.proposed_db(idx) = 10 * log10(noise_var * mse_trace_factor(Omega_czcp, channel_len));
-        fig6b.gcp_db(idx) = 10 * log10(noise_var * mse_trace_factor(Omega_gcp, channel_len));
-        fig6b.mseq_db(idx) = 10 * log10(noise_var * mse_trace_factor(Omega_mseq, channel_len));
-        fig6b.barker_db(idx) = 10 * log10(noise_var * mse_trace_factor(Omega_barker, channel_len));
-        fig6b.gold_db(idx) = 10 * log10(noise_var * mse_trace_factor(Omega_gold, channel_len));
-        fig6b.zc_db(idx) = 10 * log10(noise_var * mse_trace_factor(Omega_zc, channel_len));
-        fig6b.bound_db(idx) = 10 * log10(noise_var / E_target);
+        path_curves.proposed_db(idx) = 10 * log10(noise_var * mse_trace_factor(Omega_czcp, channel_len));
+        path_curves.gcp_db(idx) = 10 * log10(noise_var * mse_trace_factor(Omega_gcp, channel_len));
+        path_curves.mseq_db(idx) = 10 * log10(noise_var * mse_trace_factor(Omega_mseq, channel_len));
+        path_curves.barker_db(idx) = 10 * log10(noise_var * mse_trace_factor(Omega_barker, channel_len));
+        path_curves.gold_db(idx) = 10 * log10(noise_var * mse_trace_factor(Omega_gold, channel_len));
+        path_curves.zc_db(idx) = 10 * log10(noise_var * mse_trace_factor(Omega_zc, channel_len));
+        path_curves.bound_db(idx) = 10 * log10(noise_var / E_target);
 
         random_trace = 0;
         for trial = 1:random_trials
@@ -222,7 +222,7 @@ function fig6b = compute_fig6b(Nt, czcp_a, czcp_b, gcp_a, gcp_b, mseq, ...
                 build_structure48_from_rows(2 * randi([0, 1], Nt, 32) - 1), E_target);
             random_trace = random_trace + mse_trace_factor(Omega_random, channel_len);
         end
-        fig6b.random_db(idx) = 10 * log10(noise_var * random_trace / random_trials);
+        path_curves.random_db(idx) = 10 * log10(noise_var * random_trace / random_trials);
     end
 end
 

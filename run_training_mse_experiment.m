@@ -1,6 +1,6 @@
 clearvars; if ~isappdata(0, 'KEEP_PAPER_FIGURES') || ~getappdata(0, 'KEEP_PAPER_FIGURES'), close all; end; clc;
 
-% Section IV experiment driver for the CZCP-SM training paper.
+% Experiment driver for the CZCP-SM training paper.
 % This script verifies the optimal training condition and produces a
 % Fig. 6 style MSE comparison.
 
@@ -67,7 +67,7 @@ results.mse_random = mse_random;
 results.bound = bound;
 results.gram_err_czcp = gram_err_czcp;
 results.gram_err_random = gram_err_random;
-save('section4_experiment_results.mat', 'results');
+save('training_mse_experiment_results.mat', 'results');
 
 figure('Color', 'w');
 semilogy(snr_db, mse_czcp, 'o-', 'LineWidth', 1.6); hold on;
@@ -77,8 +77,8 @@ grid on;
 xlabel('SNR (dB)');
 ylabel('Normalized MSE');
 legend('CZCP training', 'Lower bound', 'Random same-support training', 'Location', 'southwest');
-title('Section IV CZCP-SM Training MSE Experiment');
-saveas(gcf, 'section4_mse_comparison.png');
+title('CZCP-SM Training MSE Experiment');
+saveas(gcf, 'training_mse_experiment.png');
 
 fprintf('\nMSE table:\n');
 fprintf('SNR(dB)   CZCP-MSE        Bound           Random-MSE\n');

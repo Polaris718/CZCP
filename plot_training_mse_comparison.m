@@ -1,17 +1,17 @@
 clearvars; if ~isappdata(0, 'KEEP_PAPER_FIGURES') || ~getappdata(0, 'KEEP_PAPER_FIGURES'), close all; end; clc;
 
-% Plot comparison figures for the Section IV training experiment.
-% Run main_section4_experiment first, or let this script run it automatically.
+% Plot comparison figures for the CZCP-SM training experiment.
+% Run run_training_mse_experiment first, or let this script run it automatically.
 
-result_file = 'section4_experiment_results.mat';
+result_file = 'training_mse_experiment_results.mat';
 
 if ~isfile(result_file)
-    fprintf('Result file not found. Running main_section4_experiment...\n');
-    main_section4_experiment;
+    fprintf('Result file not found. Running run_training_mse_experiment...\n');
+    run_training_mse_experiment;
 end
 
 if ~exist('result_file', 'var')
-    result_file = 'section4_experiment_results.mat';
+    result_file = 'training_mse_experiment_results.mat';
 end
 
 load(result_file, 'results');
@@ -28,8 +28,8 @@ xlabel('SNR (dB)');
 ylabel('Normalized MSE');
 legend('CZCP training', 'Theoretical lower bound', ...
     'Random same-support training', 'Location', 'southwest');
-title('MSE Performance Comparison');
-saveas(gcf, 'section4_mse_comparison.png');
+title('Training MSE Comparison');
+saveas(gcf, 'training_mse_comparison.png');
 
 figure('Color', 'w');
 bar([results.gram_err_czcp, results.gram_err_random]);
@@ -38,8 +38,8 @@ set(gca, 'YScale', 'log');
 grid on;
 ylabel('max |X^H X - E I|');
 title('Training Matrix Orthogonality Error');
-saveas(gcf, 'section4_gram_error_comparison.png');
+saveas(gcf, 'training_gram_error_comparison.png');
 
 fprintf('Figures saved:\n');
-fprintf('  section4_mse_comparison.png\n');
-fprintf('  section4_gram_error_comparison.png\n');
+fprintf('  training_mse_comparison.png\n');
+fprintf('  training_gram_error_comparison.png\n');
