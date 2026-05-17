@@ -23,7 +23,7 @@ This document records the current MATLAB project status and remaining tasks for 
 - `czcs_from_czcp.m`: constructs CZCSs from CZCPs.
 - `verify_czcs.m`: verifies CZCS conditions.
 - `verify_czcp_conditions.m`: verifies q-ary CZCP construction.
-- `definite6.m`: verifies CZCS construction.
+- `verify_czcs_construction.m`: verifies CZCS construction.
 
 ### Training Matrix and MSE
 
@@ -168,7 +168,7 @@ matlab -batch "run_all_paper_experiments"
 Run result:
 
 - `verify_czcp_conditions`: PASS.
-- `definite6`: PASS.
+- `verify_czcs_construction`: PASS.
 - `run_training_mse_experiment`: PASS.
 - `plot_training_mse_comparison`: PASS.
 - `reproduce_mse_comparison`: PASS.

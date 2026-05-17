@@ -13,7 +13,7 @@ run_all_paper_experiments
 The runner executes:
 
 - `verify_czcp_conditions`
-- `definite6`
+- `verify_czcs_construction`
 - `run_training_mse_experiment`
 - `plot_training_mse_comparison`
 - `reproduce_mse_comparison`
@@ -78,7 +78,7 @@ Verification time: 2026-05-06 18:52:00 to 18:52:27.
 Run result:
 
 - `verify_czcp_conditions`: PASS.
-- `definite6`: PASS.
+- `verify_czcs_construction`: PASS.
 - `run_training_mse_experiment`: PASS.
 - `plot_training_mse_comparison`: PASS.
 - `reproduce_mse_comparison`: PASS.
