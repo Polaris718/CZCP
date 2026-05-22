@@ -1,24 +1,24 @@
 function phi = cyclic_cross_correlation(a, b, tau, method)
-    % Implementation note.
-    % Implementation note.
-    % Implementation note.
-    % Implementation note.
-    % Implementation note.
-    % Implementation note.
-    % Implementation note.
-    % Implementation note.
+    % 实现说明。
+    % 实现说明。
+    % 实现说明。
+    % 实现说明。
+    % 实现说明。
+    % 实现说明。
+    % 实现说明。
+    % 实现说明。
     
-    % Implementation note.
+    % 实现说明。
     if nargin < 4
         method = 'inner';
     end
     
-    % Implementation note.
+    % 实现说明。
     a = a(:);
     b = b(:);
     N = length(a);
     
-    % Implementation note.
+    % 实现说明。
     if length(b) ~= N
         error('Invalid input: %d, %d', N, length(b));
     end
@@ -26,17 +26,17 @@ function phi = cyclic_cross_correlation(a, b, tau, method)
         error('Invalid input: %d', N);
     end
     
-    % Implementation note.
+    % 实现说明。
     if strcmp(method, 'inner')
-        b_shift = cyclic_shift_left(b, tau);  % Implementation note.
-        phi = a.' * conj(b_shift);  % Implementation note.
-    % Implementation note.
+        b_shift = cyclic_shift_left(b, tau);  % 实现说明。
+        phi = a.' * conj(b_shift);  % 实现说明。
+    % 实现说明。
     elseif strcmp(method, 'sum')
         phi = 0;
         for n = 0 : N-1
-            % Implementation note.
-            idx = mod(n + tau, N) + 1;  % Implementation note.
-            phi = phi + a(n+1) * conj(b(idx));  % Implementation note.
+            % 实现说明。
+            idx = mod(n + tau, N) + 1;  % 实现说明。
+            phi = phi + a(n+1) * conj(b(idx));  % 实现说明。
         end
     else
         error('Invalid input''inner''Invalid input''sum''');

@@ -1,10 +1,10 @@
-%% Verification or construction step
+%% 验证或构造步骤
 function czcs_set = czcs_from_czcp(a, b, M)
-    % Implementation note.
-    % Implementation note.
-    % Implementation note.
-    % Implementation note.
-    % Implementation note.
+    % 实现说明。
+    % 实现说明。
+    % 实现说明。
+    % 实现说明。
+    % 实现说明。
     
     if mod(M, 2) ~= 0
         error('Invalid input');

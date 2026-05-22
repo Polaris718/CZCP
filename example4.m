@@ -1,15 +1,15 @@
 clearvars; close all; clc;
 
-q = 4;  % Implementation note.
-omega4 = exp(1i * 2 * pi / q);  % Implementation note.
-N = 9;  % Implementation note.
-Z = 3;  % Implementation note.
+q = 4;  % 实现说明。
+omega4 = exp(1i * 2 * pi / q);  % 实现说明。
+N = 9;  % 实现说明。
+Z = 3;  % 实现说明。
 PI_CONST = 3.141592653589793;
 
-exp_a = [0,1,1,2,0,2,1,1,3];  % Implementation note.
-exp_b = [0,1,1,0,1,0,3,3,1];  % Implementation note.
+exp_a = [0,1,1,2,0,2,1,1,3];  % 实现说明。
+exp_b = [0,1,1,0,1,0,3,3,1];  % 实现说明。
 
-% Implementation note.
+% 实现说明。
 a = omega4 .^ exp_a;
 b = omega4 .^ exp_b;
 
@@ -18,22 +18,22 @@ fprintf('Output: %d, %d\n', N, Z);
 fprintf('Output: %s\n', num2str(exp_a));
 fprintf('Output: %s\n', num2str(exp_b));
 
-% Implementation note.
-a_rev = flip(a);  % Implementation note.
-b_rev = flip(b);  % Implementation note.
+% 实现说明。
+a_rev = flip(a);  % 实现说明。
+b_rev = flip(b);  % 实现说明。
 
-% Implementation note.
-b_rev_conj = conj(b_rev);  % Implementation note.
-minus_a_rev_conj = -conj(a_rev);  % Implementation note.
+% 实现说明。
+b_rev_conj = conj(b_rev);  % 实现说明。
+minus_a_rev_conj = -conj(a_rev);  % 实现说明。
 
-% Implementation note.
+% 实现说明。
 exp_b_rev_conj = round(angle(b_rev_conj) / (2*PI_CONST/q));
 exp_b_rev_conj(exp_b_rev_conj < 0) = exp_b_rev_conj(exp_b_rev_conj < 0) + q;
 
 exp_minus_a_rev_conj = round(angle(minus_a_rev_conj) / (2*PI_CONST/q));
 exp_minus_a_rev_conj(exp_minus_a_rev_conj < 0) = exp_minus_a_rev_conj(exp_minus_a_rev_conj < 0) + q;
 
-% Implementation note.
+% 实现说明。
 paper_b_rev_conj = [3,1,1,0,3,0,3,3,0];
 paper_minus_a_rev_conj = [3,1,1,0,2,0,1,1,2];
 
@@ -48,9 +48,9 @@ tau_pos = tau_all(tau_all >= 0);
 AAC_sum_mag = abs(AAC_sum_new(tau_all >= 0));
 
 fprintf('Output\n');
-disp(AAC_sum_mag);  % Implementation note.
+disp(AAC_sum_mag);  % 实现说明。
 
-% Implementation note.
+% 实现说明。
 T1 = 1:Z;
 T2 = (N-Z):(N-1);
 idx_C1 = ismember(tau_pos, [T1, T2]);
@@ -79,9 +79,9 @@ ACC_sum_new = rho_bc_mac + rho_mac_bc;
 ACC_sum_new_mag = abs(ACC_sum_new(tau_all >= 0));
 
 fprintf('Output\n');
-disp(ACC_sum_new_mag);  % Implementation note.
+disp(ACC_sum_new_mag);  % 实现说明。
 
-% Implementation note.
+% 实现说明。
 idx_T2 = ismember(tau_pos, T2);
 valid_C2_new = all(abs(ACC_sum_new_mag(idx_T2)) < 1e-10);
 if valid_C2_new

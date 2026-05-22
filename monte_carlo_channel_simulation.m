@@ -1,8 +1,8 @@
 clearvars; if ~isappdata(0, 'KEEP_PAPER_FIGURES') || ~getappdata(0, 'KEEP_PAPER_FIGURES'), close all; end; clc;
 
-% Monte Carlo verification for the Section IV CZCP-SM training experiment.
-% The theoretical LS-MSE curves are computed from X'X. The empirical curves
-% estimate random channels over many trials and compare h_hat against h.
+% 第四节CZCP-SM训练实验的Monte Carlo验证。
+% 理论LS-MSE曲线由X'X计算，经验曲线通过多次试验估计随机信道，
+% 并比较h_hat与h。
 
 rng(11);
 

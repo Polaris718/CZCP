@@ -1,16 +1,16 @@
 function rho = linear_cross_correlation(a, b, tau)
-    % Implementation note.
-    % Implementation note.
-    % Implementation note.
-    % Implementation note.
-    % Implementation note.
-    % Implementation note.
+    % 实现说明。
+    % 实现说明。
+    % 实现说明。
+    % 实现说明。
+    % 实现说明。
+    % 实现说明。
     
-    a = a(:);  % Implementation note.
+    a = a(:);  % 实现说明。
     b = b(:);
     N = length(a);
     
-    % Implementation note.
+    % 实现说明。
     if length(b) ~= N
         error('Invalid input: %d, %d', N, length(b));
     end
@@ -19,10 +19,10 @@ function rho = linear_cross_correlation(a, b, tau)
     end
     
     rho = 0;
-    % Implementation note.
+    % 实现说明。
     for n = 0 : N-1-tau
-        a_idx = n + 1;  % Implementation note.
-        b_idx = n + tau + 1;  % Implementation note.
+        a_idx = n + 1;  % 实现说明。
+        b_idx = n + tau + 1;  % 实现说明。
         rho = rho + a(a_idx) * conj(b(b_idx));
     end
 end

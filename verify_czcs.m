@@ -1,11 +1,11 @@
-%% CZCS condition verification
+%% CZCS条件验证
 function [is_valid, results] = verify_czcs(czcs_set, Z)
-    % Input:
-    %   czcs_set - CZCS sequence set; czcs_set(m).seq is sequence m.
-    %   Z        - zero-correlation zone width.
-    % Output:
-    %   is_valid - true when the CZCS conditions are satisfied.
-    %   results  - detailed verification values.
+    % 输入：
+    %   czcs_set - CZCS序列集；czcs_set(m).seq表示第m条序列。
+    %   Z        - 零相关区宽度。
+    % 输出：
+    %   is_valid - 满足CZCS条件时为true。
+    %   results  - 详细验证结果。
 
     is_valid = false;
     results = struct();

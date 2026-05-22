@@ -1,24 +1,24 @@
 clear; clc;
-%% Verification or construction step
-%% Verification or construction step
+%% 验证或构造步骤
+%% 验证或构造步骤
 kappa_set = [0 0 0;1 0 0;0 1 0;1 1 0;0 0 1;1 0 1;0 1 1;1 1 1];
 one_vec  = [1,1,1,1,1,1,1,1];
 x1_vec   = [0,1,0,1,0,1,0,1];
 x3_vec   = [0,0,0,0,1,1,1,1];
 calc_vec = 2 * x1_vec .* x3_vec + one_vec;
 disp('Output'); disp(calc_vec);
-% Implementation note.
+% 实现说明。
 mu = 4;
 q = 8;
 N = 2^mu;
-%% Verification or construction step
+%% 验证或构造步骤
 g = 0:N-1;
 disp('Output'); disp(g);
-%% Verification or construction step
+%% 验证或构造步骤
 omega_q = exp(-1j*2*pi/q);
 phi_g = omega_q .^ g;
 disp('Output'); disp(phi_g);
-%% Verification or construction step
+%% 验证或构造步骤
 h = [0,2,4,6,1,3,5,7,8,10,12,14,9,11,13,15];
 phi_h = omega_q .^ h;
 tau = 2; 
@@ -30,7 +30,7 @@ function rho = full_cross_corr(a,b,tau)
 end
 rho_q = full_cross_corr(phi_g, phi_h, tau);
 disp(['Output',num2str(tau),') ===']); disp(rho_q);
-%% Verification or construction step
+%% 验证或构造步骤
 x = [1,0,1,0];
 pi_vec = [1,2,3,4];
 w = [1,1,1,1]; w_const = 0;

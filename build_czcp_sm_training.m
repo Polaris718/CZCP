@@ -1,12 +1,12 @@
 function Omega = build_czcp_sm_training(a, b, Nt, J, seed_type)
-%BUILD_CZCP_SM_TRAINING Build a sparse SM training matrix from a CZCP.
-%   a,b       - CZCP sequences with identical length theta.
-%   Nt        - number of transmit antennas, must be even.
-%   J         - repetition factor in the paper construction, must be even.
-%   seed_type - 1 uses rows [a,b]; 2 uses [a,b] and [conj(flip(b)),-conj(flip(a))].
+%BUILD_CZCP_SM_TRAINING 由CZCP构造稀疏SM训练矩阵。
+%   a,b       - 长度同为theta的CZCP序列。
+%   Nt        - 发射天线数，必须为偶数。
+%   J         - 论文构造中的重复因子，必须为偶数。
+%   seed_type - 1使用行[a,b]；2使用[a,b]与[conj(flip(b)),-conj(flip(a))]。
 %
-%   The returned matrix has size Nt-by-(Nt*J*theta). Every antenna row has
-%   J nonzero theta-length blocks, so the per-antenna training energy is J*theta.
+%   返回矩阵尺寸为Nt-by-(Nt*J*theta)。每个天线行含有J个
+%   长度为theta的非零块，因此每个天线的训练能量为J*theta。
 
     if nargin < 5
         seed_type = 1;

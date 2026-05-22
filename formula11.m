@@ -1,19 +1,19 @@
-%% Verification or construction step
-N = 4;  % Implementation note.
-k = 2;  % Implementation note.
+%% 验证或构造步骤
+N = 4;  % 实现说明。
+k = 2;  % 实现说明。
 n_k = 3;              % n(k)
 
-%% Verification or construction step
+%% 验证或构造步骤
 e = zeros(N, 1);
 e(n_k) = 1;
 
-%% Verification or construction step
-S = diag(randn(N, 1));  % Implementation note.
+%% 验证或构造步骤
+S = diag(randn(N, 1));  % 实现说明。
 
-%% Verification or construction step
+%% 验证或构造步骤
 d_k = S * e;
 
-%% Verification or construction step
+%% 验证或构造步骤
 disp('Output');
 disp('d_k = ');
 disp(d_k);

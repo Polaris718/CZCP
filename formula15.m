@@ -1,24 +1,24 @@
 omega4 = exp(1i * 2 * pi / 4);
-a = omega4.^[0, 1, 1, 2, 0, 2, 1, 1, 3];  % Implementation note.
-b = omega4.^[0, 1, 1, 0, 1, 0, 3, 3, 1];  % Implementation note.
+a = omega4.^[0, 1, 1, 2, 0, 2, 1, 1, 3];  % 实现说明。
+b = omega4.^[0, 1, 1, 0, 1, 0, 3, 3, 1];  % 实现说明。
 N = 9; Z = 3;
 
-% Implementation note.
+% 实现说明。
 T1 = 1:Z;                  % T1 = {1,2,3}
 T2 = (N-Z):(N-1);          % T2 = {6,7,8}
-tau_C1 = unique([T1, T2]);  % Implementation note.
-tau_C2 = T2;  % Implementation note.
+tau_C1 = unique([T1, T2]);  % 实现说明。
+tau_C2 = T2;  % 实现说明。
 
-% Implementation note.
+% 实现说明。
 [tau_all, rho_a] = aperiodic_autocorr(a);
 [~, rho_b] = aperiodic_autocorr(b);
 [~, rho_ab] = aperiodic_crosscorr(a, b);
 [~, rho_ba] = aperiodic_crosscorr(b, a);
 
-AAC_sum = rho_a + rho_b;  % Implementation note.
-ACC_sum = rho_ab + rho_ba;  % Implementation note.
+AAC_sum = rho_a + rho_b;  % 实现说明。
+ACC_sum = rho_ab + rho_ba;  % 实现说明。
 
-% Implementation note.
+% 实现说明。
 disp('Output');
 fprintf('Output: %s\n', num2str(tau_C1));
 C1_pass = true;
@@ -33,7 +33,7 @@ for t = tau_C1
     end
 end
 
-% Implementation note.
+% 实现说明。
 disp('Output\n');
 fprintf('Output: %s\n', num2str(tau_C2));
 C2_pass = true;
@@ -48,7 +48,7 @@ for t = tau_C2
     end
 end
 
-% Implementation note.
+% 实现说明。
 disp('Output\n');
 if C1_pass && C2_pass
     fprintf('Output: %d, %d\n', N, Z);

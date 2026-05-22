@@ -1,6 +1,6 @@
-% Verify formula (4): rho(a)(tau) + rho(b)(tau) = 0 for tau ~= 0.
-% This experiment randomly generates a length-N unit-modulus Golay
-% complementary pair from the standard length-4 Golay pair.
+% 验证公式(4)：当tau ~= 0时，rho(a)(tau) + rho(b)(tau) = 0。
+% 本实验由标准长度4的Golay互补对随机生成
+% 长度为N的单位模Golay互补对。
 clear; clc;
 
 N = 4;

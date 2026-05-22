@@ -1,7 +1,7 @@
 clearvars; if ~isappdata(0, 'KEEP_PAPER_FIGURES') || ~getappdata(0, 'KEEP_PAPER_FIGURES'), close all; end; clc;
 
-% Plot comparison figures for the CZCP-SM training experiment.
-% Run run_training_mse_experiment first, or let this script run it automatically.
+% 绘制CZCP-SM训练实验的对比图。
+% 可先运行run_training_mse_experiment，也可由本脚本自动运行。
 
 result_file = 'training_mse_experiment_results.mat';
 

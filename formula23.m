@@ -1,6 +1,6 @@
 clear; clc; close all;
 
-% Implementation note.
+% 实现说明。
 function [is_valid, results] = verify_czcp(a, b, Z)
     N = length(a);
     [tau_all, rho_a] = aperiodic_autocorr(a);
@@ -8,13 +8,13 @@ function [is_valid, results] = verify_czcp(a, b, Z)
     [~, rho_ab] = aperiodic_crosscorr(a, b);
     [~, rho_ba] = aperiodic_crosscorr(b, a);
     
-    % Implementation note.
+    % 实现说明。
     T1 = 1:Z;
     T2 = (N-Z):(N-1);
-    idx_C1 = ismember(abs(tau_all), [T1, T2]);  % Implementation note.
-    idx_C2 = ismember(abs(tau_all), T2);  % Implementation note.
+    idx_C1 = ismember(abs(tau_all), [T1, T2]);  % 实现说明。
+    idx_C2 = ismember(abs(tau_all), T2);  % 实现说明。
     
-    % Implementation note.
+    % 实现说明。
     C1_vals = rho_a(idx_C1) + rho_b(idx_C1);
     C2_vals = rho_ab(idx_C2) + rho_ba(idx_C2);
     
@@ -28,19 +28,19 @@ function [is_valid, results] = verify_czcp(a, b, Z)
     results.tau_C2 = tau_all(idx_C2);
 end
 
-% Implementation note.
-q = 4;  % Implementation note.
-mu = 2;  % Implementation note.
-M = 2^mu;  % Implementation note.
+% 实现说明。
+q = 4;  % 实现说明。
+mu = 2;  % 实现说明。
+M = 2^mu;  % 实现说明。
 
-% Implementation note.
+% 实现说明。
 kappa = 0:M-1;
-x1 = floor(kappa / 2);  % Implementation note.
-x2 = mod(kappa, 2);  % Implementation note.
-g = (q/2)*x1.*x2;       % GBF: g(x) = (q/2)x1x2
-g_prime = g + (q/2)*x1; % GBF: g' = g + (q/2)x1
+x1 = floor(kappa / 2);  % 实现说明。
+x2 = mod(kappa, 2);  % 实现说明。
+g = (q/2)*x1.*x2;       % GBF定义：g(x) = (q/2)x1x2
+g_prime = g + (q/2)*x1; % GBF定义：g' = g + (q/2)x1
 
-% Implementation note.
+% 实现说明。
 omega_q = exp(1i*2*pi/q);
 e = omega_q.^g;
 f = omega_q.^g_prime;
@@ -51,23 +51,23 @@ disp('Output'); disp(e);
 disp('Output'); disp(f);
 
 v1 = 0;
-v2 = q/2;  % Implementation note.
+v2 = q/2;  % 实现说明。
 v = 1;
 
 fprintf('Output\n');
 fprintf('v1 = %d, v2 = %d, v = %d\n', v1, v2, v);
 fprintf('Output: %d, %d\n', mod(v1-v2, q), q);
 
-% Implementation note.
+% 实现说明。
 czcp_set = generate_czcp_set(e, f, q, v1, v2, v);
-N = 2*M;  % Implementation note.
-Z = M;  % Implementation note.
+N = 2*M;  % 实现说明。
+Z = M;  % 实现说明。
 
 fprintf('Output\n');
 fprintf('Output: %d, %d\n', N, Z);
 
-% Implementation note.
-% Implementation note.
+% 实现说明。
+% 实现说明。
 a1 = czcp_set(1).a;
 b1 = czcp_set(1).b;
 
@@ -83,12 +83,12 @@ if abs(coeff_left) < 1e-10
     fprintf('Output\n');
 end
 
-% Implementation note.
+% 实现说明。
 idx_T2 = ismember(abs(tau_all), (N-Z):(N-1));
 fprintf('Output\n');
 disp(ACC_sum(idx_T2));
 
-% Implementation note.
+% 实现说明。
 [is_valid, results] = verify_czcp(a1, b1, Z);
 
 fprintf('Output\n');

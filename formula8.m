@@ -1,24 +1,24 @@
-% Implementation note.
+% 实现说明。
 clear; clc;
 
-%% Verification or construction step
-mu = 3;  % Implementation note.
-q = 4;  % Implementation note.
-tau = 2;  % Implementation note.
-% Implementation note.
+%% 验证或构造步骤
+mu = 3;  % 实现说明。
+q = 4;  % 实现说明。
+tau = 2;  % 实现说明。
+% 实现说明。
 g = 0 : 2^mu - 1;  % g = [0,1,2,3,4,5,6,7]
-h = [0,2,4,6,1,3,5,7];  % Implementation note.
+h = [0,2,4,6,1,3,5,7];  % 实现说明。
 
 
-%% Verification or construction step
-% Implementation note.
+%% 验证或构造步骤
+% 实现说明。
 phi_q_g = gen_phi_q(g, q);
 phi_q_h = gen_phi_q(h, q);
 
-% Implementation note.
+% 实现说明。
 rho_q_gh = full_linear_cross_correlation(phi_q_g, phi_q_h, tau);
 
-%% Verification or construction step
+%% 验证或构造步骤
 disp('Output');
 disp(['Output', num2str(mu), ', q=', num2str(q), 'Output', num2str(tau)]);
 disp('Output');
@@ -31,7 +31,7 @@ disp('Output');
 disp(['Output', num2str(q), '(g,h)(', num2str(tau), ') = ']);
 disp(rho_q_gh);
 
-% Implementation note.
+% 实现说明。
 test_taus = [-3, -1, 0, 2, 3];
 disp('Output');
 for t = test_taus

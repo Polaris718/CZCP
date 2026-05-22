@@ -1,15 +1,14 @@
 clearvars; if ~isappdata(0, 'KEEP_PAPER_FIGURES') || ~getappdata(0, 'KEEP_PAPER_FIGURES'), close all; end; clc;
 
-% Experiment driver for the CZCP-SM training paper.
-% This script verifies the optimal training condition and produces a
-% Fig. 6 style MSE comparison.
+% CZCP-SM训练论文的实验驱动脚本。
+% 本脚本验证最优训练条件，并生成图6风格的MSE对比结果。
 
-Nt = 4;              % transmit antennas
-J = 2;               % paper repetition factor
-lambda = 7;          % frequency-selective channel order
+Nt = 4;              % 发射天线数
+J = 2;               % 论文中的重复因子
+lambda = 7;          % 频率选择性信道阶数
 channel_len = lambda + 1;
 q = 4;
-mu = 4;              % CZCP length theta = 2^mu
+mu = 4;              % CZCP长度theta = 2^mu
 perm_vec = [4, 2, 3, 1];
 w_k = [3, 2, 0, 1];
 w = 0;

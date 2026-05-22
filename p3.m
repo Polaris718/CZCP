@@ -1,8 +1,8 @@
 clear; clc; close all;
 
-% Verify P3 with a random binary unit-modulus (N=8, Z=4)-CZCP pair.
-% The random pair is generated from a known perfect binary (8,4)-CZCP by
-% equivalence operations that preserve the CZCP property.
+% 使用随机二元单位模(N=8, Z=4)-CZCP对验证P3。
+% 该随机序列对由已知完美二元(8,4)-CZCP经
+% 保持CZCP性质的等价操作生成。
 
 rng('shuffle');
 
@@ -30,12 +30,12 @@ if did_swap
     b = tmp;
 end
 
-% Basic sequence checks.
+% 基础序列检查。
 cond_even_length = (mod(N, 2) == 0);
 cond_binary_unit_modulus = all(ismember(a, [-1, 1])) && all(ismember(b, [-1, 1])) && ...
     all(abs(a) == 1) && all(abs(b) == 1);
 
-% P3 value check over i = 0:Z-1.
+% 在i = 0:Z-1范围内检查P3取值。
 result_values = zeros(1, Z);
 cond_p3 = true;
 for i = 0:Z-1
@@ -49,7 +49,7 @@ for i = 0:Z-1
     end
 end
 
-% CZCP condition check for zero-correlation-zone width Z = N/2.
+% 检查零相关区宽度Z = N/2时的CZCP条件。
 [is_czcp, czcp_results] = verify_perfect_czcp(a, b);
 cond_czcp_width = (Z == N / 2);
 

@@ -1,22 +1,22 @@
-%% Verification or construction step
+%% 验证或构造步骤
 clear; clc; close all;
 
-%% Verification or construction step
-N = 8;  % Implementation note.
+%% 验证或构造步骤
+N = 8;  % 实现说明。
 half_N = N/2;   
 
-%% Verification or construction step
+%% 验证或构造步骤
 c = exp(1i * linspace(0, 7*pi/4, N));  
 
-%% Verification or construction step
+%% 验证或构造步骤
 d = zeros(1, N);
-d(1 : half_N) = c(1 : half_N);  % Implementation note.
-d(half_N+1 : N) = -c(half_N+1 : N);  % Implementation note.
+d(1 : half_N) = c(1 : half_N);  % 实现说明。
+d(half_N+1 : N) = -c(half_N+1 : N);  % 实现说明。
 
-%% Verification or construction step
+%% 验证或构造步骤
 result_matrix = [c; d];
 
-%% Verification or construction step
+%% 验证或构造步骤
 disp('Output');
 disp(c);
 
