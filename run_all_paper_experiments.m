@@ -91,9 +91,20 @@ for idx = 1:numel(png_files)
     figure('Color', 'w', 'Name', file_name, 'NumberTitle', 'off');
     image(img);
     axis image off;
-    title(strrep(file_name, '_', '\_'));
+    title(display_title_for_png(file_name));
     drawnow;
     fprintf('DISPLAY: %s\n', file_name);
+end
+end
+
+function display_title = display_title_for_png(file_name)
+switch file_name
+    case 'mse_vs_ebno.png'
+        display_title = 'Fig. 6(a) Reproduction';
+    case 'mse_vs_paths.png'
+        display_title = 'Fig. 6(b) Reproduction';
+    otherwise
+        display_title = strrep(file_name, '_', '\_');
 end
 end
 

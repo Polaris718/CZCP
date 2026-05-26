@@ -114,7 +114,7 @@ end
 grid on;
 xlabel('EbNo per TA (dB)');
 ylabel('MSE (dB)');
-title('MSE versus EbNo');
+title('Fig. 6(a) Reproduction');
 legend('CZCP J=2', 'Random J=2', 'Min J=2', ...
     'CZCP J=6', 'Random J=6', 'Min J=6', ...
     'CZCP J=18', 'Random J=18', 'Min J=18', ...
@@ -133,7 +133,7 @@ plot(path_grid, path_curves.bound_db, 'k:', 'LineWidth', 1.4);
 grid on;
 xlabel('Number of multi-paths');
 ylabel('MSE (dB)');
-title('MSE versus Number of Paths');
+title('Fig. 6(b) Reproduction');
 legend('CZCP', 'GCP', 'm-sequence', 'Barker', 'Gold', ...
     'Zadoff-Chu', 'Random', 'Minimum MSE', 'Location', 'northwest');
 saveas(gcf, 'mse_vs_paths.png');
