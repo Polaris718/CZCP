@@ -8,8 +8,8 @@ omega4 = exp(1i * 2 * pi / 4);  % 实现说明。
 a = omega4.^[0, 1, 1, 2, 0, 2, 1, 1, 3];
 b = omega4.^[0, 1, 1, 0, 1, 0, 3, 3, 1];
 
-b_rev_conj_paper = omega4.^[3, 1, 1, 0, 3, 0, 3, 3, 0];
-a_rev_conj_neg_paper = omega4.^[3, 1, 1, 0, 2, 0, 1, 1, 2];
+b_rev_conj_expected = omega4.^[3, 1, 1, 0, 3, 0, 3, 3, 0];
+a_rev_conj_neg_expected = omega4.^[3, 1, 1, 0, 2, 0, 1, 1, 2];
 
 % 实现说明。
 T1 = 1:Z;
@@ -43,18 +43,18 @@ cond_p2_1 = all(abs(C1_check) < 1e-10) && all(abs(C2_check) < 1e-10);
 % 实现说明。
 
 % 实现说明。
-[~, rho_brc] = aperiodic_autocorr(b_rev_conj_paper);
-[~, rho_arcn] = aperiodic_autocorr(a_rev_conj_neg_paper);
+[~, rho_brc] = aperiodic_autocorr(b_rev_conj_expected);
+[~, rho_arcn] = aperiodic_autocorr(a_rev_conj_neg_expected);
 AAC_sum = rho_brc + rho_arcn;
 
 % 实现说明。
-[~, rho_a_brc] = aperiodic_crosscorr(a, b_rev_conj_paper);
-[~, rho_b_arcn] = aperiodic_crosscorr(b, a_rev_conj_neg_paper);
+[~, rho_a_brc] = aperiodic_crosscorr(a, b_rev_conj_expected);
+[~, rho_b_arcn] = aperiodic_crosscorr(b, a_rev_conj_neg_expected);
 ACC_sum_1 = rho_a_brc + rho_b_arcn;
 
 % 实现说明。
-[~, rho_b_brc] = aperiodic_crosscorr(b, b_rev_conj_paper);
-[~, rho_a_arcn] = aperiodic_crosscorr(a, a_rev_conj_neg_paper);
+[~, rho_b_brc] = aperiodic_crosscorr(b, b_rev_conj_expected);
+[~, rho_a_arcn] = aperiodic_crosscorr(a, a_rev_conj_neg_expected);
 ACC_sum_2 = rho_b_brc + rho_a_arcn;
 
 % 实现说明。

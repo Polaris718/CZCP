@@ -1,6 +1,6 @@
 function [czcp_pair, N, Z] = q_ray_czcp(q, mu, perm_vec, w_k, w, w_prime)
 %Q_RAY_CZCP 由GBF构造生成完美q元CZCP。
-%   这里实现论文示例6使用的q元GBF构造。
+%   Implements the q-ary GBF construction used by the example.
 
     if mod(q, 2) ~= 0
         error('q must be even.');

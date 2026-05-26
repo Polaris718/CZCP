@@ -1,10 +1,10 @@
 clearvars; if ~isappdata(0, 'KEEP_PAPER_FIGURES') || ~getappdata(0, 'KEEP_PAPER_FIGURES'), close all; end; clc;
 
-% CZCP-SM训练论文的实验驱动脚本。
+% CZCP-SM training experiment driver.
 % 本脚本验证最优训练条件，并生成图6风格的MSE对比结果。
 
 Nt = 4;              % 发射天线数
-J = 2;               % 论文中的重复因子
+J = 2;               % training repetition factor
 lambda = 7;          % 频率选择性信道阶数
 channel_len = lambda + 1;
 q = 4;

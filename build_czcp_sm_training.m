@@ -2,7 +2,7 @@ function Omega = build_czcp_sm_training(a, b, Nt, J, seed_type)
 %BUILD_CZCP_SM_TRAINING 由CZCP构造稀疏SM训练矩阵。
 %   a,b       - 长度同为theta的CZCP序列。
 %   Nt        - 发射天线数，必须为偶数。
-%   J         - 论文构造中的重复因子，必须为偶数。
+%   J         - training repetition factor, must be even.
 %   seed_type - 1使用行[a,b]；2使用[a,b]与[conj(flip(b)),-conj(flip(a))]。
 %
 %   返回矩阵尺寸为Nt-by-(Nt*J*theta)。每个天线行含有J个

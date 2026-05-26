@@ -34,8 +34,8 @@ exp_minus_a_rev_conj = round(angle(minus_a_rev_conj) / (2*PI_CONST/q));
 exp_minus_a_rev_conj(exp_minus_a_rev_conj < 0) = exp_minus_a_rev_conj(exp_minus_a_rev_conj < 0) + q;
 
 % 实现说明。
-paper_b_rev_conj = [3,1,1,0,3,0,3,3,0];
-paper_minus_a_rev_conj = [3,1,1,0,2,0,1,1,2];
+expected_b_rev_conj = [3,1,1,0,3,0,3,3,0];
+expected_minus_a_rev_conj = [3,1,1,0,2,0,1,1,2];
 
 fprintf('Output: %s\n', num2str(exp_b_rev_conj));
 fprintf('Output: %s\n', num2str(exp_minus_a_rev_conj));

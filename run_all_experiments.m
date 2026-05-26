@@ -1,18 +1,16 @@
-function run_all_paper_experiments
+﻿function run_all_experiments
 close all; clc;
-setappdata(0, 'KEEP_PAPER_FIGURES', true);
+setappdata(0, 'KEEP_EXPERIMENT_FIGURES', true);
 
-% CZCP-SM论文复现实验的一键运行入口。
-% 依次执行核心验证与实验脚本，并检查预期输出产物。
-
-diary_file = 'paper_experiment_run_log.txt';
+% CZCP-SM璁烘枃澶嶇幇瀹為獙鐨勪竴閿繍琛屽叆鍙ｃ€?% 渚濇鎵ц鏍稿績楠岃瘉涓庡疄楠岃剼鏈紝骞舵鏌ラ鏈熻緭鍑轰骇鐗┿€?
+diary_file = 'experiment_run_log.txt';
 if isfile(diary_file)
     delete(diary_file);
 end
 diary(diary_file);
 cleanup = onCleanup(@() cleanup_runner_state());
 
-fprintf('CZCP-SM paper experiment run\n');
+fprintf('CZCP-SM experiment run\n');
 fprintf('Started: %s\n\n', char(datetime('now')));
 
 scripts = { ...
@@ -22,7 +20,7 @@ scripts = { ...
     'verify_czcs_construction', ...
     'run_training_mse_experiment', ...
     'plot_training_mse_comparison', ...
-    'reproduce_mse_comparison', ...
+    'plot_training_mse_baselines', ...
     'monte_carlo_channel_simulation' ...
 };
 
@@ -100,9 +98,9 @@ end
 function display_title = display_title_for_png(file_name)
 switch file_name
     case 'mse_vs_ebno.png'
-        display_title = 'Fig. 6(a) Reproduction';
+        display_title = 'MSE versus EbNo';
     case 'mse_vs_paths.png'
-        display_title = 'Fig. 6(b) Reproduction';
+        display_title = 'MSE versus Number of Paths';
     otherwise
         display_title = strrep(file_name, '_', '\_');
 end
@@ -110,7 +108,8 @@ end
 
 function cleanup_runner_state()
 diary('off');
-if isappdata(0, 'KEEP_PAPER_FIGURES')
-    rmappdata(0, 'KEEP_PAPER_FIGURES');
+if isappdata(0, 'KEEP_EXPERIMENT_FIGURES')
+    rmappdata(0, 'KEEP_EXPERIMENT_FIGURES');
 end
 end
+

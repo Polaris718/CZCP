@@ -1,6 +1,6 @@
-# Paper Experiment Reproduction TODO
+﻿# training-sequence study Experiment implementation TODO
 
-This document records the current MATLAB project status and remaining tasks for reproducing the CZCP-SM training-sequence paper.
+This document records the current MATLAB project status and remaining tasks for implementing the CZCP-SM training-sequence training-sequence study.
 
 ## Completed Work
 
@@ -9,16 +9,16 @@ This document records the current MATLAB project status and remaining tasks for 
 - Section III CZCP definitions, properties, examples, perfect CZCP construction, and CZCS verification.
 - Training matrix framework: `X`, Gram matrix `X' * X`, and theoretical LS-MSE.
 - Training comparison plotting script: `plot_training_mse_comparison.m`.
-- MSE comparison reproduction script: `reproduce_mse_comparison.m`.
+- MSE comparison implementation script: `plot_training_mse_baselines.m`.
 - Monte Carlo random-channel LS verification script: `monte_carlo_channel_simulation.m`.
-- Full experiment runner: `run_all_paper_experiments.m`.
+- Full experiment runner: `run_all_experiments.m`.
 
 ## Core Files
 
 ### Sequence Construction and Verification
 
 - `q_ray_czcp.m`: constructs perfect q-ary CZCPs from GBFs.
-- `generate_czcp_set.m`: implements the paper formula-based construction from a GCP.
+- `generate_czcp_set.m`: implements the construction-rule-based construction from a GCP.
 - `verify_perfect_czcp.m`: verifies perfect CZCP C1/C2 conditions.
 - `czcs_from_czcp.m`: constructs CZCSs from CZCPs.
 - `verify_czcs.m`: verifies CZCS conditions.
@@ -35,9 +35,9 @@ This document records the current MATLAB project status and remaining tasks for 
 - `run_training_mse_experiment.m`: main training experiment script.
 - `plot_training_mse_comparison.m`: plots CZCP versus random training comparisons.
 
-### MSE Comparison Reproduction
+### MSE Comparison implementation
 
-- `reproduce_mse_comparison.m`: generates MSE comparison plots.
+- `plot_training_mse_baselines.m`: generates MSE comparison plots.
 
 Expected outputs:
 
@@ -111,7 +111,7 @@ Note: the CAN curve is omitted because the authors' official CAN coefficients or
 Run:
 
 ```matlab
-run_all_paper_experiments
+run_all_experiments
 ```
 
 The script executes all main experiments, checks outputs, preserves figure windows, and reopens the main PNG outputs at the end.
@@ -139,7 +139,7 @@ Older Chinese-named PNG files may still remain from previous runs.
 
 ### Barker Baseline
 
-- Barker now uses the paper-described `4 x 104` sparse training structure.
+- Barker now uses the specified `4 x 104` sparse training structure.
 - The energy is normalized to `E = 32`.
 
 ### Monte Carlo Channel Simulation
@@ -153,8 +153,8 @@ Outputs:
 
 ## Remaining Work
 
-1. Compare the MSE comparison axis ranges and units against the original paper figure.
-2. Add the official CAN curve only if the authors' CAN coefficients or official Fig. 6 code become available.
+1. Compare the MSE comparison axis ranges and units against the original MSE plot.
+2. Add the official CAN curve only if the authors' CAN coefficients or official MSE code become available.
 3. Clearly state in any final report that the path-number comparison does not include the CAN curve because official CAN parameters are unavailable.
 
 ## Local Verification Record
@@ -162,7 +162,7 @@ Outputs:
 Command:
 
 ```powershell
-matlab -batch "run_all_paper_experiments"
+matlab -batch "run_all_experiments"
 ```
 
 Run result:
@@ -171,7 +171,7 @@ Run result:
 - `verify_czcs_construction`: PASS.
 - `run_training_mse_experiment`: PASS.
 - `plot_training_mse_comparison`: PASS.
-- `reproduce_mse_comparison`: PASS.
+- `plot_training_mse_baselines`: PASS.
 - `monte_carlo_channel_simulation`: PASS.
 
 Key values:
@@ -183,3 +183,4 @@ Key values:
 - At SNR = 30 dB, CZCP MSE and Bound are both `3.1250e-05`.
 - At SNR = 0 dB, CZCP Monte Carlo empirical/theory values are `3.1176e-02 / 3.1250e-02`.
 - At SNR = 30 dB, CZCP Monte Carlo empirical/theory values are `3.1515e-05 / 3.1250e-05`.
+

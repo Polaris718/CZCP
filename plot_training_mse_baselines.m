@@ -1,6 +1,6 @@
-clearvars; if ~isappdata(0, 'KEEP_PAPER_FIGURES') || ~getappdata(0, 'KEEP_PAPER_FIGURES'), close all; end; clc;
+clearvars; if ~isappdata(0, 'KEEP_EXPERIMENT_FIGURES') || ~getappdata(0, 'KEEP_EXPERIMENT_FIGURES'), close all; end; clc;
 
-% 复现CZCP-SM训练论文中的MSE对比结果。
+% CZCP-SM training MSE baseline comparison.
 %
 % 每个发射天线的EbNo与MSE关系，路径数为5，
 %            J取{2, 6, 18}，比较所提CZCP与随机稀疏训练。
@@ -8,8 +8,8 @@ clearvars; if ~isappdata(0, 'KEEP_PAPER_FIGURES') || ~getappdata(0, 'KEEP_PAPER_
 %            比较所提CZCP与多种种子序列基线。
 %
 % 说明：
-% - 本地未找到官方MATLAB代码。Gold序列采用标准确定性构造复现，
-%   训练矩阵尺寸遵循论文描述。
+% - Gold序列采用标准确定性构造复现，
+%   Training-matrix dimensions follow the configured baseline setup.
 % - 所有曲线均由LS-MSE表达式计算：
 %   sigma2 * trace(inv(X' * X)) / num_params.
 
@@ -33,15 +33,15 @@ ebno_curves = compute_ebno_mse_curves(Nt, a8, b8, fixed_paths, J_list, ...
 a16 = [1, 1, 1, -1, 1, 1, -1, 1, 1, -1, 1, 1, 1, -1, -1, -1];
 b16 = [1, 1, 1, -1, 1, 1, -1, 1, -1, 1, -1, -1, -1, 1, 1, 1];
 
-% 论文正文给出的长度16 GCP。
+% Length-16 GCP baseline.
 gcp_a16 = [1, 1, 1, 1, 1, -1, -1, 1, 1, 1, -1, -1, 1, -1, 1, -1];
 gcp_b16 = [1, -1, 1, -1, 1, 1, -1, -1, 1, -1, -1, 1, 1, 1, 1, 1];
 
-% 论文正文给出的长度31 m序列。
+% Length-31 m-sequence baseline.
 mseq31 = [1, -1, -1, -1, -1, 1, -1, -1, 1, -1, 1, 1, -1, -1, 1, ...
     1, 1, 1, 1, -1, -1, -1, 1, 1, -1, 1, 1, 1, -1, 1, -1];
 
-% 论文正文给出的长度13 Barker序列。论文对Barker使用4-by-104
+% Length-13 Barker baseline. Barker uses a 4-by-104
 % 稀疏结构，下面直接实现该结构而不调用公式(48)。
 barker13 = [1, 1, 1, 1, 1, -1, -1, 1, 1, -1, 1, -1, 1];
 
@@ -114,7 +114,7 @@ end
 grid on;
 xlabel('EbNo per TA (dB)');
 ylabel('MSE (dB)');
-title('Fig. 6(a) Reproduction');
+title('MSE versus EbNo');
 legend('CZCP J=2', 'Random J=2', 'Min J=2', ...
     'CZCP J=6', 'Random J=6', 'Min J=6', ...
     'CZCP J=18', 'Random J=18', 'Min J=18', ...
@@ -133,7 +133,7 @@ plot(path_grid, path_curves.bound_db, 'k:', 'LineWidth', 1.4);
 grid on;
 xlabel('Number of multi-paths');
 ylabel('MSE (dB)');
-title('Fig. 6(b) Reproduction');
+title('MSE versus Number of Paths');
 legend('CZCP', 'GCP', 'm-sequence', 'Barker', 'Gold', ...
     'Zadoff-Chu', 'Random', 'Minimum MSE', 'Location', 'northwest');
 saveas(gcf, 'mse_vs_paths.png');
