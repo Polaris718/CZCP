@@ -6,15 +6,15 @@ N = 9;
 Z = 3;
 omega4 = exp(1i * 2 * pi / 4);
 
-% Example length-9 quaternary CZCP pair.
+% 长度 9 的四相 CZCP 示例序列对。
 a = omega4.^[0, 1, 1, 2, 0, 2, 1, 1, 3];
 b = omega4.^[0, 1, 1, 0, 1, 0, 3, 3, 1];
 
-% Normalize both sequences by the first element.
+% 用首元素归一化两条序列。
 c = a / a(1);
 d = b / b(1);
 
-% Boundary condition: the first Z entries should be equal.
+% 边界条件：前 Z 个元素应相等。
 cond1 = true;
 for i = 0:Z-1
     if abs(c(i + 1) - d(i + 1)) > 1e-10
@@ -23,7 +23,7 @@ for i = 0:Z-1
     end
 end
 
-% Boundary condition: the last Z entries should sum to zero.
+% 边界条件：后 Z 个元素之和应为零。
 cond2 = true;
 for i = 0:Z-1
     idx = N - i;

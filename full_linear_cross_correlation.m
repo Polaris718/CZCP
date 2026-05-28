@@ -1,5 +1,5 @@
 function rho = full_linear_cross_correlation(a, b, tau)
-%FULL_LINEAR_CROSS_CORRELATION Compute linear cross-correlation for any lag.
+% 计算任意时延下的线性互相关。
 
     a = a(:);
     b = b(:);

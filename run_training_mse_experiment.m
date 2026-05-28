@@ -1,13 +1,13 @@
-﻿clearvars; if ~isappdata(0, 'KEEP_PAPER_FIGURES') || ~getappdata(0, 'KEEP_PAPER_FIGURES'), close all; end; clc;
+clearvars; if ~isappdata(0, 'KEEP_PAPER_FIGURES') || ~getappdata(0, 'KEEP_PAPER_FIGURES'), close all; end; clc;
 
-% CZCP-SM training experiment driver.
+% CZCP-SM 训练实验驱动脚本。
 
 Nt = 4;
-J = 2;               % training repetition factor
+J = 2;               % 训练重复因子
 lambda = 7;
 channel_len = lambda + 1;
 q = 4;
-mu = 4;  % CZCP parameter.
+mu = 4;  % CZCP 参数。
 perm_vec = [4, 2, 3, 1];
 w_k = [3, 2, 0, 1];
 w = 0;

@@ -1,5 +1,5 @@
 function T_minus_tau = cyclic_shift_left(x, tau)
-%CYCLIC_SHIFT_LEFT Circularly shift a vector left by tau samples.
+% 将向量向左循环移位 tau 个采样点。
 
     x = x(:);
     N = length(x);

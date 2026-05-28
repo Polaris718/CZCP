@@ -1,4 +1,4 @@
-﻿clear; clc; close all;
+clear; clc; close all;
 
 function [is_valid, results] = czcp_condition_check(a, b, Z)
     N = length(a);
@@ -32,8 +32,8 @@ M = 2^mu;
 kappa = 0:M-1;
 x1 = floor(kappa / 2);
 x2 = mod(kappa, 2);
-g = (q/2)*x1.*x2;  % GBF definition.
-g_prime = g + (q/2)*x1;  % GBF definition.
+g = (q/2)*x1.*x2;  % GBF 定义。
+g_prime = g + (q/2)*x1;  % GBF 定义。
 
 omega_q = exp(1i*2*pi/q);
 e = omega_q.^g;

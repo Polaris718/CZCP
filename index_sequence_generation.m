@@ -4,7 +4,7 @@ clc;
 mu = 3;
 g_gen_mode = 1;
 
-%% Generate Index Sequence
+%% 生成指数序列
 len_g = 2^mu;
 
 if g_gen_mode == 1
@@ -15,7 +15,7 @@ else
     error('Invalid input');
 end
 
-%% Display
+%% 显示结果
 disp(['mu = ', num2str(mu), ', length = ', num2str(len_g)]);
 disp('Index sequence:');
 disp(g);

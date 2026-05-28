@@ -7,7 +7,7 @@ M_SM = 8;
 K = 4;
 omega8 = exp(1i * 2 * pi / 8);
 
-% Each row contains 2 antenna-index bits and 3 constellation bits.
+% 每行包含 2 个天线索引比特和 3 个星座比特。
 input_bits = [
     1 0 0 1 0;
     1 1 0 1 1;

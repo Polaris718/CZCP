@@ -1,6 +1,6 @@
 function T = build_circular_toeplitz(x, channel_len)
-%BUILD_CIRCULAR_TOEPLITZ Build a circular convolution training matrix.
-%   T is L-by-channel_len. Column ell is x circularly delayed by ell - 1.
+% 构造循环卷积训练矩阵。
+%   T 的尺寸为 L-by-channel_len；第 ell 列为 x 循环延迟 ell - 1 后的结果。
 
     x = x(:);
     L = length(x);

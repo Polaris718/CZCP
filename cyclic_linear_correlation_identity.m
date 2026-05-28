@@ -1,21 +1,21 @@
-% Verify formula (3):
+% 验证公式 (3)：
 % phi(a,b)(tau) = rho(a,b)(tau) + conj(rho(b,a)(N-tau)).
 clear;
 clc;
 
-% Real test vectors; conjugation does not change these values.
+% 实数测试向量；共轭操作不会改变这些取值。
 N = 5;
 a = [1; 2; 3; 4; 5];
 b = [2; 4; 6; 8; 10];
 tau = 2;
 
-% Left side: cyclic cross-correlation.
+% 左侧：循环互相关。
 phi = cyclic_cross_correlation(a, b, tau);
 
-% First right-side term: linear cross-correlation rho(a,b)(tau).
+% 右侧第一项：线性互相关 rho(a,b)(tau)。
 rho_ab = linear_cross_correlation(a, b, tau);
 
-% Second right-side term: conj(rho(b,a)(N-tau)).
+% 右侧第二项：conj(rho(b,a)(N-tau))。
 tau_prime = N - tau;
 rho_ba = linear_cross_correlation(b, a, tau_prime);
 rho_ba_conj = conj(rho_ba);

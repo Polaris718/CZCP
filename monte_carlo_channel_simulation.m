@@ -4,9 +4,9 @@ if ~isappdata(0, 'KEEP_PAPER_FIGURES') || ~getappdata(0, 'KEEP_PAPER_FIGURES')
 end
 clc;
 
-% Monte Carlo validation for the Section IV CZCP-SM training experiment.
-% The theoretical LS-MSE curve is computed from X'X. The empirical curve is
-% estimated over random channels and compared with the LS channel estimate.
+% 第 IV 节 CZCP-SM 训练实验的 Monte Carlo 验证。
+% 理论 LS-MSE 曲线由 X'X 计算；经验曲线通过随机信道
+% 多次试验估计，并与 LS 信道估计结果对比。
 
 rng(11);
 

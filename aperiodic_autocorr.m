@@ -1,5 +1,5 @@
 function [tau, rho_x] = aperiodic_autocorr(x)
-%APERIODIC_AUTOCORR Compute the full aperiodic autocorrelation of x.
+% 计算序列 x 的完整非周期自相关。
 
     x = x(:).';
     N = length(x);
@@ -9,10 +9,10 @@ function [tau, rho_x] = aperiodic_autocorr(x)
     for idx = 1:length(tau)
         t = tau(idx);
         if t >= 0
-            % Positive lags compare x(n) with x(n + t).
+            % 正时延比较 x(n) 与 x(n + t)。
             sum_term = x(1:N-t) .* conj(x(1+t:N));
         else
-            % Negative lags use the conjugate symmetry of autocorrelation.
+            % 负时延利用自相关的共轭对称性。
             sum_term = conj(x(1:N+t) .* conj(x(1-t:N)));
         end
         rho_x(idx) = sum(sum_term);

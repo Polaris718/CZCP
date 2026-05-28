@@ -1,4 +1,4 @@
-﻿clear; clc; close all;
+clear; clc; close all;
 
 
 N = 9; Z = 3;

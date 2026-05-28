@@ -1,7 +1,7 @@
 function Omega = build_random_sm_training(Nt, theta, J, alphabet_order)
-%BUILD_RANDOM_SM_TRAINING Build a random sparse SM training baseline.
-%   The support pattern and energy match build_czcp_sm_training. Nonzero
-%   entries are random q-PSK symbols.
+% 构造随机稀疏 SM 训练基线。
+%   其支撑模式和能量与 build_czcp_sm_training 一致，非零元素为
+%   随机 q-PSK 符号。
 
     if nargin < 4
         alphabet_order = 4;

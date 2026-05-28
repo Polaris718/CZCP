@@ -1,7 +1,7 @@
 function X = build_training_matrix(Omega, channel_len)
-%BUILD_TRAINING_MATRIX Build the stacked training matrix X.
-%   Omega is Nt-by-L. X is L-by-(Nt*channel_len), formed by concatenating
-%   one circular Toeplitz block per transmit antenna.
+% 构造堆叠后的训练矩阵 X。
+%   Omega 的尺寸为 Nt-by-L。X 的尺寸为 L-by-(Nt*channel_len)，由
+%   每根发射天线对应的循环 Toeplitz 块拼接得到。
 
     [Nt, ~] = size(Omega);
     blocks = cell(1, Nt);

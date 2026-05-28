@@ -1,7 +1,7 @@
 function phi = cyclic_cross_correlation(a, b, tau, method)
-%CYCLIC_CROSS_CORRELATION Compute cyclic cross-correlation at lag tau.
-%   method can be 'inner' or 'sum'. Both implement
-%   phi(a,b)(tau) = sum_n a(n) * conj(b(n + tau mod N)).
+% 计算时延 tau 处的循环互相关。
+%   参数 method 可为 'inner' 或 'sum'，二者实现同一公式：
+%   phi(a,b)(tau) = sum_n a(n) * conj(b(n + tau mod N))。
 
     if nargin < 4
         method = 'inner';

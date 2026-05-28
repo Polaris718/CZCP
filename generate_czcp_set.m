@@ -1,5 +1,5 @@
 function czcp_set = generate_czcp_set(e, f, q, v1, v2, v)
-%GENERATE_CZCP_SET Generate four equivalent CZCP pairs from seed sequences.
+% 由种子序列生成四组等价 CZCP 序列对。
 
     e = e(:).';
     f = f(:).';

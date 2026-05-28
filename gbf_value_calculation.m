@@ -1,4 +1,4 @@
-%% GBF Value Calculation
+%% GBF 取值计算
 mu = 4;
 q = 4;
 x = [1, 0, 1, 0];
@@ -6,7 +6,7 @@ pi_vec = [1, 2, 3, 4];
 w = [1, 1, 1, 1];
 w_const = 0;
 
-%% Quadratic and Linear Terms
+%% 二次项与线性项
 sum1 = 0;
 for k = 1:mu-1
     sum1 = sum1 + x(pi_vec(k)) * x(pi_vec(k + 1));
@@ -15,7 +15,7 @@ term1 = (q / 2) * sum1;
 term2 = sum(w .* x);
 g_x = term1 + term2 + w_const;
 
-%% Display
+%% 显示结果
 disp('Quadratic term:');
 disp(term1);
 disp('Linear term:');

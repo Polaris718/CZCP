@@ -1,4 +1,4 @@
-﻿clear; clc; close all;
+clear; clc; close all;
 
 q = 4;
 omega4 = exp(1i*2*pi/q);
@@ -22,7 +22,7 @@ fprintf('Output: %d, %d, %d\n', v1, v2, v);
 fprintf('Output: %d\n', v1-v2);
 
 czcp_set = generate_czcp_set(e, f, q, v1, v2, v);
-a1 = czcp_set(1).a;  % CZCP parameter.
+a1 = czcp_set(1).a;  % CZCP 参数。
 b1 = czcp_set(1).b;
 
 exp_a1 = round(angle(a1)/(2*pi/q));

@@ -1,5 +1,5 @@
 function metrics = training_mse_metrics(Omega, channel_len, noise_var)
-%TRAINING_MSE_METRICS Compute Gram, optimality error, and normalized LS MSE.
+% 计算 Gram 矩阵、最优性误差和归一化 LS MSE。
 
     if nargin < 3
         noise_var = 1;

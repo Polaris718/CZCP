@@ -4,18 +4,18 @@ if ~isappdata(0, 'KEEP_EXPERIMENT_FIGURES') || ~getappdata(0, 'KEEP_EXPERIMENT_F
 end
 clc;
 
-% CZCP-SM training MSE baseline comparison.
+% CZCP-SM 训练 MSE 基线对比。
 %
-% 1. Compare MSE versus EbNo per transmit antenna for J = 2, 6, 18 and
-%    five multipaths, using the proposed CZCP training and random sparse
-%    training.
-% 2. Compare MSE versus number of paths at EbNo = 16 dB and E = 32 for the
-%    proposed CZCP training and several baseline seed sequences.
+% 1. 在 J = 2, 6, 18 且路径数为 5 时，比较每根发射天线 EbNo 与 MSE 的关系。
+%    对比对象包括所提 CZCP 训练和随机稀疏训练。
 %
-% Notes:
-% - Gold sequences use a standard deterministic construction.
-% - Training-matrix dimensions follow the configured baseline setup.
-% - All curves use the LS-MSE expression:
+% 2. 在 EbNo = 16 dB 且 E = 32 时，比较路径数与 MSE 的关系。
+%    对比对象包括所提 CZCP 训练和多种基线种子序列。
+%
+% 说明：
+% - Gold 序列采用标准确定性构造。
+% - 训练矩阵维度遵循当前基线配置。
+% - 所有曲线均使用 LS-MSE 表达式：
 %   sigma2 * trace(inv(X' * X)) / num_params.
 
 rng(7);
@@ -26,7 +26,7 @@ ebno_db_grid = 0:2:20;
 J_list = [2, 6, 18];
 fixed_paths = 5;
 
-% Perfect binary (N = 8, Z = 4)-CZCP from the reference table.
+% 参考表中的完美二元 (N = 8, Z = 4)-CZCP。
 a8 = [1, 1, 1, -1, 1, 1, -1, 1];
 b8 = [1, 1, 1, -1, -1, -1, 1, -1];
 
@@ -34,26 +34,26 @@ fprintf('Computing MSE versus EbNo...\n');
 ebno_curves = compute_ebno_mse_curves(Nt, a8, b8, fixed_paths, J_list, ...
     ebno_db_grid, num_random_trials);
 
-% Perfect binary (N = 16, Z = 8)-CZCP from the reference table.
+% 参考表中的完美二元 (N = 16, Z = 8)-CZCP。
 a16 = [1, 1, 1, -1, 1, 1, -1, 1, 1, -1, 1, 1, 1, -1, -1, -1];
 b16 = [1, 1, 1, -1, 1, 1, -1, 1, -1, 1, -1, -1, -1, 1, 1, 1];
 
-% Length-16 GCP baseline.
+% 长度 16 的 GCP 基线。
 gcp_a16 = [1, 1, 1, 1, 1, -1, -1, 1, 1, 1, -1, -1, 1, -1, 1, -1];
 gcp_b16 = [1, -1, 1, -1, 1, 1, -1, -1, 1, -1, -1, 1, 1, 1, 1, 1];
 
-% Length-31 m-sequence baseline.
+% 长度 31 的 m 序列基线。
 mseq31 = [1, -1, -1, -1, -1, 1, -1, -1, 1, -1, 1, 1, -1, -1, 1, ...
     1, 1, 1, 1, -1, -1, -1, 1, 1, -1, 1, 1, 1, -1, 1, -1];
 
-% Length-13 Barker baseline. Barker uses a 4-by-104 sparse structure, which
-% is implemented directly here instead of calling the paper formula.
+% 长度 13 的 Barker 基线，采用 4-by-104 稀疏结构，
+% 此处直接实现该结构，而不调用论文公式。
 barker13 = [1, 1, 1, 1, 1, -1, -1, 1, 1, -1, 1, -1, 1];
 
-% Length-31 Gold sequence generated from a preferred pair.
+% 由优选对生成的长度 31 Gold 序列。
 gold31 = gold_sequence_31(9);
 
-% Four length-32 constant-amplitude Zadoff-Chu style rows.
+% 四条长度 32 的类 Zadoff-Chu 恒幅序列行。
 zc32 = zeros(4, 32);
 for row = 1:4
     zc32(row, :) = zadoff_chu_seq(row * 2 - 1, 32);

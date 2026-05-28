@@ -1,5 +1,5 @@
 function rho = linear_autocorrelation(x, tau)
-%LINEAR_AUTOCORRELATION Compute the nonnegative-lag linear autocorrelation.
+% 计算非负时延的线性自相关。
 
     x = x(:);
     N = length(x);

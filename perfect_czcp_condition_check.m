@@ -1,6 +1,6 @@
-﻿function [is_perfect, results] = perfect_czcp_condition_check(a, b)
+function [is_perfect, results] = perfect_czcp_condition_check(a, b)
     N = length(a);
-    Z = N/2;  % CZCP parameter.
+    Z = N/2;  % CZCP 参数。
     [tau_all, rho_a] = aperiodic_autocorr(a);
     [~, rho_b] = aperiodic_autocorr(b);
     [~, rho_ab] = aperiodic_crosscorr(a, b);

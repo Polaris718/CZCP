@@ -1,5 +1,5 @@
 function T_tau = cyclic_shift(x, tau)
-%CYCLIC_SHIFT Circularly shift a vector right by tau samples.
+% 将向量向右循环移位 tau 个采样点。
 
     x = x(:);
     N = length(x);

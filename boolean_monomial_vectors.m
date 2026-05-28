@@ -1,7 +1,7 @@
 clear;
 clc;
 
-%% Enumerate binary inputs
+%% 枚举二进制输入
 kappa_set = [
     0 0 0;
     1 0 0;
@@ -15,12 +15,12 @@ kappa_set = [
 disp('Binary input vectors:');
 disp(kappa_set);
 
-%% Build monomial vectors
+%% 构造单项式向量
 one_vec = [1, 1, 1, 1, 1, 1, 1, 1];
 x1_vec = [0, 1, 0, 1, 0, 1, 0, 1];
 x3_vec = [0, 0, 0, 0, 1, 1, 1, 1];
 
-%% Evaluate the Boolean monomial expression
+%% 计算布尔单项式表达式
 calc_vec = 2 * x1_vec .* x3_vec + one_vec;
 
 disp('Constant term:');

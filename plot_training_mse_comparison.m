@@ -1,6 +1,6 @@
-﻿clearvars; if ~isappdata(0, 'KEEP_PAPER_FIGURES') || ~getappdata(0, 'KEEP_PAPER_FIGURES'), close all; end; clc;
+clearvars; if ~isappdata(0, 'KEEP_PAPER_FIGURES') || ~getappdata(0, 'KEEP_PAPER_FIGURES'), close all; end; clc;
 
-% CZCP-SM experiment script.
+% CZCP-SM 实验脚本。
 
 result_file = 'training_mse_experiment_results.mat';
 

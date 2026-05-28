@@ -3,15 +3,15 @@ clc;
 close all;
 
 N = 5;
-% Unit-magnitude test sequence a.
+% 单位模测试序列 a。
 a = [1; 1i; -1; -1i; 1];
-% Unit-magnitude test sequence b.
+% 单位模测试序列 b。
 b = [exp(1i*pi/4); exp(1i*3*pi/4); exp(1i*5*pi/4); exp(1i*7*pi/4); exp(1i*pi/4)];
 tau = 2;
 
-% Formula (2), inner-product form.
+% 公式 (2) 的内积形式。
 phi_inner = cyclic_cross_correlation(a, b, tau, 'inner');
-% Formula (2), explicit summation form.
+% 公式 (2) 的显式求和形式。
 phi_sum = cyclic_cross_correlation(a, b, tau, 'sum');
 
 disp('================== Cyclic cross-correlation results ==================');

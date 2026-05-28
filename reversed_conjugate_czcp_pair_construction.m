@@ -1,4 +1,4 @@
-﻿clearvars; close all; clc;
+clearvars; close all; clc;
 
 q = 4;
 omega4 = exp(1i * 2 * pi / q);

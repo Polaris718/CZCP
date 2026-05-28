@@ -1,5 +1,5 @@
 function rho = linear_cross_correlation(a, b, tau)
-%LINEAR_CROSS_CORRELATION Compute nonnegative-lag linear cross-correlation.
+% 计算非负时延的线性互相关。
 
     a = a(:);
     b = b(:);

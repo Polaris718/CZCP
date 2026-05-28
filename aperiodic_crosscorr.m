@@ -1,5 +1,5 @@
 function [tau, rho_xy] = aperiodic_crosscorr(x, y)
-%APERIODIC_CROSSCORR Compute the full aperiodic cross-correlation.
+% 计算完整非周期互相关。
 
     x = x(:).';
     y = y(:).';
@@ -10,10 +10,10 @@ function [tau, rho_xy] = aperiodic_crosscorr(x, y)
     for idx = 1:length(tau)
         t = tau(idx);
         if t >= 0
-            % Positive lags compare x(n) with y(n + t).
+            % 正时延比较 x(n) 与 y(n + t)。
             sum_term = x(1:N-t) .* conj(y(1+t:N));
         else
-            % Negative lags compare x(n - t) with y(n).
+            % 负时延比较 x(n - t) 与 y(n)。
             sum_term = x(1-t:N) .* conj(y(1:N+t));
         end
         rho_xy(idx) = sum(sum_term);

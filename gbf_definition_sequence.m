@@ -11,7 +11,7 @@ x_bits = zeros(N, m);
 g_values = zeros(1, N);
 sequence = zeros(1, N);
 
-% Enumerate all binary inputs and evaluate the GBF.
+% 枚举所有二进制输入并计算 GBF 取值。
 for idx = 1:N
     k = k_list(idx);
     x1 = bitget(k, m);
@@ -44,7 +44,7 @@ else
     fprintf('\nResult: FAIL. The generalized Boolean function mapping is inconsistent.\n');
 end
 
-% Save the index sequence and corresponding polyphase complex sequence.
+% 保存指数序列及对应的多相复序列。
 save('gbf_definition_results.mat', 'q', 'm', 'N', 'omega', ...
     'k_list', 'x_bits', 'g_values', 'sequence', 'pass');
 

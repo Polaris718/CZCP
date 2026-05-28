@@ -1,4 +1,4 @@
-﻿clear; clc;
+clear; clc;
 
 N = 4;
 rng('shuffle');

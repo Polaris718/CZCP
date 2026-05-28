@@ -1,6 +1,6 @@
 function czcs_set = czcs_from_czcp(a, b, M)
-%CZCS_FROM_CZCP Build an alternating CZCS set from a CZCP pair.
-%   M must be even. Odd positions use a, and even positions use b.
+% 由 CZCP 序列对构造交替 CZCS 集合。
+%   M 必须为偶数；奇数位置使用 a，偶数位置使用 b。
 
     if mod(M, 2) ~= 0
         error('M must be even.');

@@ -1,7 +1,7 @@
 clear;
 clc;
 
-%% Verification and construction steps
+%% 验证与构造步骤
 kappa_set = [
     0 0 0;
     1 0 0;
@@ -23,18 +23,18 @@ mu = 4;
 q = 8;
 N = 2^mu;
 
-%% Verification and construction steps
+%% 验证与构造步骤
 g = 0:N-1;
 disp('Output');
 disp(g);
 
-%% Verification and construction steps
+%% 验证与构造步骤
 omega_q = exp(-1j * 2 * pi / q);
 phi_g = omega_q .^ g;
 disp('Output');
 disp(phi_g);
 
-%% Verification and construction steps
+%% 验证与构造步骤
 h = [0, 2, 4, 6, 1, 3, 5, 7, 8, 10, 12, 14, 9, 11, 13, 15];
 phi_h = omega_q .^ h;
 tau = 2;
@@ -42,7 +42,7 @@ rho_q = full_cross_corr(phi_g, phi_h, tau);
 disp(['Output', num2str(tau), ') ===']);
 disp(rho_q);
 
-%% Verification and construction steps
+%% 验证与构造步骤
 x = [1, 0, 1, 0];
 pi_vec = [1, 2, 3, 4];
 w = [1, 1, 1, 1];

@@ -1,4 +1,4 @@
-﻿clearvars; clc;
+clearvars; clc;
 
 a = [1, 1, 1, -1];
 b = [1, 1, -1, 1];
@@ -50,7 +50,7 @@ else
     fprintf('\nResult: FAIL. The selected binary sequences do not form a Golay complementary pair.\n');
 end
 
-% Save reusable table data.
+% 保存可复用的表格数据。
 save('golay_definition_results.mat', 'a', 'b', 'taus', 'rho_a', 'rho_b', 'rho_sum', 'pass');
 
 function text = format_scalar(value, tol)
