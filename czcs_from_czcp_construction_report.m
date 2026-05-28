@@ -1,6 +1,5 @@
-clearvars; if ~isappdata(0, 'KEEP_PAPER_FIGURES') || ~getappdata(0, 'KEEP_PAPER_FIGURES'), close all; end; clc;
+﻿clearvars; if ~isappdata(0, 'KEEP_PAPER_FIGURES') || ~getappdata(0, 'KEEP_PAPER_FIGURES'), close all; end; clc;
 
-% 实现说明。
 fprintf('Output\n');
 q = 4;
 mu = 4;
@@ -15,9 +14,8 @@ a_czcp = czcp_pair.a;
 b_czcp = czcp_pair.b;
 fprintf('Output: %d, %d\n', N, Z);
 
-% 实现说明。
 fprintf('Output\n');
-M = 4;  % 实现说明。
+M = 4;
 try
     czcs_set = czcs_from_czcp(a_czcp, b_czcp, M);
 catch ME
@@ -26,7 +24,6 @@ end
 
 fprintf('Output: %d, %d, %d\n', M, N, Z);
 
-% 实现说明。
 fprintf('Output\n');
 try
     [is_valid, results] = czcs_condition_check(czcs_set, Z);
@@ -40,7 +37,6 @@ else
     fprintf('Output\n');
 end
 
-% 实现说明。
 fprintf('Output\n');
 if ~isempty(results.C1_vals)
     fprintf('Output: %.2e\n', max(abs(results.C1_vals)));

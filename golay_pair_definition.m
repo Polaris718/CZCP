@@ -1,4 +1,4 @@
-clearvars; clc;
+﻿clearvars; clc;
 
 a = [1, 1, 1, -1];
 b = [1, 1, -1, 1];
@@ -6,7 +6,6 @@ N = length(a);
 taus = 0:(N - 1);
 tol = 1e-10;
 
-% 计算非负时延下的非周期自相关和
 [all_taus, all_rho_a] = aperiodic_autocorr(a);
 [~, all_rho_b] = aperiodic_autocorr(b);
 nonnegative_tau_mask = all_taus >= 0;
@@ -15,7 +14,6 @@ rho_a = all_rho_a(nonnegative_tau_mask);
 rho_b = all_rho_b(nonnegative_tau_mask);
 rho_sum = rho_a + rho_b;
 
-% GCP在零时延处保留总能量，非零时延处相关和为零
 zero_delay_ok = abs(rho_sum(1) - 2 * N) < tol;
 nonzero_delay_ok = all(abs(rho_sum(2:end)) < tol);
 pass = zero_delay_ok && nonzero_delay_ok;

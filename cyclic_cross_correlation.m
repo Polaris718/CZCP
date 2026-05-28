@@ -1,24 +1,16 @@
 function phi = cyclic_cross_correlation(a, b, tau, method)
-    % 实现说明。
-    % 实现说明。
-    % 实现说明。
-    % 实现说明。
-    % 实现说明。
-    % 实现说明。
-    % 实现说明。
-    % 实现说明。
+%CYCLIC_CROSS_CORRELATION Compute cyclic cross-correlation at lag tau.
+%   method can be 'inner' or 'sum'. Both implement
+%   phi(a,b)(tau) = sum_n a(n) * conj(b(n + tau mod N)).
 
-    % 实现说明。
     if nargin < 4
         method = 'inner';
     end
 
-    % 实现说明。
     a = a(:);
     b = b(:);
     N = length(a);
 
-    % 实现说明。
     if length(b) ~= N
         error('Invalid input: %d, %d', N, length(b));
     end
@@ -26,19 +18,16 @@ function phi = cyclic_cross_correlation(a, b, tau, method)
         error('Invalid input: %d', N);
     end
 
-    % 实现说明。
     if strcmp(method, 'inner')
-        b_shift = cyclic_shift_left(b, tau);  % 实现说明。
-        phi = a.' * conj(b_shift);  % 实现说明。
-        % 实现说明。
+        b_shift = cyclic_shift_left(b, tau);
+        phi = a.' * conj(b_shift);
     elseif strcmp(method, 'sum')
         phi = 0;
-        for n = 0 : N-1
-            % 实现说明。
-            idx = mod(n + tau, N) + 1;  % 实现说明。
-            phi = phi + a(n+1) * conj(b(idx));  % 实现说明。
+        for n = 0:N-1
+            idx = mod(n + tau, N) + 1;
+            phi = phi + a(n + 1) * conj(b(idx));
         end
     else
-        error('Invalid input''inner''Invalid input''sum''');
+        error('method must be ''inner'' or ''sum''.');
     end
 end

@@ -1,12 +1,13 @@
-%% 公式(5)验证
-clear; clc;
+%% Formula (5) Verification
+clear;
+clc;
 
-% 标准长度4的Golay互补对。
+% Standard length-4 Golay complementary pair.
 a = [1;  1;  1; -1];
 b = [1;  1; -1;  1];
-N = length(a);
 
-% 配对规则：c为b翻转后的共轭，d为a翻转共轭后的相反数。
+% Pairing rule: c is the conjugate reversal of b; d is the negative
+% conjugate reversal of a.
 c = flip(conj(b));
 d = -flip(conj(a));
 

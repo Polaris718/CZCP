@@ -1,8 +1,8 @@
-function run_all_experiments
+﻿function run_all_experiments
     close all; clc;
     setappdata(0, 'KEEP_EXPERIMENT_FIGURES', true);
 
-    % CZCP-SM璁烘枃澶嶇幇瀹為獙鐨勪竴閿繍琛屽叆鍙ｃ€?% 渚濇鎵ц鏍稿績楠岃瘉涓庡疄楠岃剼鏈紝骞舵鏌ラ鏈熻緭鍑轰骇鐗┿€?
+    % CZCP-SM experiment script.
     diary_file = 'experiment_run_log.txt';
     if isfile(diary_file)
         delete(diary_file);

@@ -1,36 +1,33 @@
-%% 验证或构造步骤
-%% 验证或构造步骤
-clear; clc;
+clear;
+clc;
 
-%% 验证或构造步骤
-% 实现说明。
+%% Enumerate binary inputs
 kappa_set = [
-0 0 0;
-1 0 0;
-0 1 0;
-1 1 0;
-0 0 1;
-1 0 1;
-0 1 1;
-1 1 1;
+    0 0 0;
+    1 0 0;
+    0 1 0;
+    1 1 0;
+    0 0 1;
+    1 0 1;
+    0 1 1;
+    1 1 1;
 ];
-disp('Output');
+disp('Binary input vectors:');
 disp(kappa_set);
 
-%% 验证或构造步骤
-one_vec  = [1,1,1,1,1,1,1,1];  % 实现说明。
-x1_vec   = [0,1,0,1,0,1,0,1];  % 实现说明。
-x3_vec   = [0,0,0,0,1,1,1,1];  % 实现说明。
+%% Build monomial vectors
+one_vec = [1, 1, 1, 1, 1, 1, 1, 1];
+x1_vec = [0, 1, 0, 1, 0, 1, 0, 1];
+x3_vec = [0, 0, 0, 0, 1, 1, 1, 1];
 
-%% 验证或构造步骤
+%% Evaluate the Boolean monomial expression
 calc_vec = 2 * x1_vec .* x3_vec + one_vec;
 
-%% 验证或构造步骤
-disp('Output');
+disp('Constant term:');
 disp(one_vec);
-disp('Output');
+disp('x1 term:');
 disp(x1_vec);
-disp('Output');
+disp('x3 term:');
 disp(x3_vec);
-disp('Output');
+disp('2*x1*x3 + 1:');
 disp(calc_vec);

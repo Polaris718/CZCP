@@ -1,16 +1,12 @@
-%% 验证或构造步骤
 function czcs_set = czcs_from_czcp(a, b, M)
-    % 实现说明。
-    % 实现说明。
-    % 实现说明。
-    % 实现说明。
-    % 实现说明。
+%CZCS_FROM_CZCP Build an alternating CZCS set from a CZCP pair.
+%   M must be even. Odd positions use a, and even positions use b.
 
     if mod(M, 2) ~= 0
-        error('Invalid input');
+        error('M must be even.');
     end
     if length(a) ~= length(b)
-        error('Invalid input');
+        error('a and b must have the same length.');
     end
 
     for m = 1:M

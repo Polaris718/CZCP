@@ -1,18 +1,16 @@
-function [is_perfect, results] = perfect_czcp_condition_check(a, b)
+﻿function [is_perfect, results] = perfect_czcp_condition_check(a, b)
     N = length(a);
-    Z = N/2; % 完美CZCP满足Z = N/2。
+    Z = N/2;  % CZCP parameter.
     [tau_all, rho_a] = aperiodic_autocorr(a);
     [~, rho_b] = aperiodic_autocorr(b);
     [~, rho_ab] = aperiodic_crosscorr(a, b);
     [~, rho_ba] = aperiodic_crosscorr(b, a);
 
-    % 定义时延集合。
     T1 = 1:Z;
     T2 = (N-Z):(N-1);
     idx_C1 = ismember(abs(tau_all), [T1, T2]);
     idx_C2 = ismember(abs(tau_all), T2);
 
-    % 验证C1和C2条件。
     C1_vals = rho_a(idx_C1) + rho_b(idx_C1);
     C2_vals = rho_ab(idx_C2) + rho_ba(idx_C2);
 

@@ -1,14 +1,13 @@
-clearvars; if ~isappdata(0, 'KEEP_PAPER_FIGURES') || ~getappdata(0, 'KEEP_PAPER_FIGURES'), close all; end; clc;
+﻿clearvars; if ~isappdata(0, 'KEEP_PAPER_FIGURES') || ~getappdata(0, 'KEEP_PAPER_FIGURES'), close all; end; clc;
 
 % CZCP-SM training experiment driver.
-% 本脚本验证最优训练条件，并生成图6风格的MSE对比结果。
 
-Nt = 4;              % 发射天线数
+Nt = 4;
 J = 2;               % training repetition factor
-lambda = 7;          % 频率选择性信道阶数
+lambda = 7;
 channel_len = lambda + 1;
 q = 4;
-mu = 4;              % CZCP长度theta = 2^mu
+mu = 4;  % CZCP parameter.
 perm_vec = [4, 2, 3, 1];
 w_k = [3, 2, 0, 1];
 w = 0;

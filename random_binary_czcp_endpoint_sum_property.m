@@ -1,8 +1,5 @@
-clear; clc; close all;
+﻿clear; clc; close all;
 
-% 使用随机二元单位模(N=8, Z=4)-CZCP对验证P3。
-% 该随机序列对由已知完美二元(8,4)-CZCP经
-% 保持CZCP性质的等价操作生成。
 
 rng('shuffle');
 
@@ -30,12 +27,10 @@ if did_swap
     b = tmp;
 end
 
-% 基础序列检查。
 cond_even_length = (mod(N, 2) == 0);
 cond_binary_unit_modulus = all(ismember(a, [-1, 1])) && all(ismember(b, [-1, 1])) && ...
     all(abs(a) == 1) && all(abs(b) == 1);
 
-% 在i = 0:Z-1范围内检查P3取值。
 result_values = zeros(1, Z);
 cond_p3 = true;
 for i = 0:Z-1
@@ -49,7 +44,6 @@ for i = 0:Z-1
     end
 end
 
-% 检查零相关区宽度Z = N/2时的CZCP条件。
 [is_czcp, czcp_results] = perfect_czcp_condition_check(a, b);
 cond_czcp_width = (Z == N / 2);
 
