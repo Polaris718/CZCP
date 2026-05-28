@@ -1,5 +1,5 @@
 function [czcp_pair, N, Z] = q_ray_czcp(q, mu, perm_vec, w_k, w, w_prime)
-%Q_RAY_CZCP 由GBF构造生成完美q元CZCP。
+%Q_RAY_CZCP Generate a perfect q-ary CZCP from a GBF construction.
 %   Implements the q-ary GBF construction used by the example.
 
     if mod(q, 2) ~= 0

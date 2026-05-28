@@ -6,17 +6,17 @@ function rho = full_linear_cross_correlation(a, b, tau)
     % 实现说明。
     % 实现说明。
     % 实现说明。
-    
+
     % 实现说明。
     a = a(:);
     b = b(:);
     N = length(a);
-    
+
     % 实现说明。
     if length(b) ~= N
         error('Invalid input: %d, %d', N, length(b));
     end
-    
+
     % 实现说明。
     if abs(tau) >= N
         % 实现说明。

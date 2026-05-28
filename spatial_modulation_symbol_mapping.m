@@ -7,9 +7,9 @@ omega8 = exp(1i * 2 * pi / 8);  % 实现说明。
 
 % 实现说明。
 input_bits = [1 0 0 1 0;  % 实现说明。
-              1 1 0 1 1;  % 实现说明。
-              0 1 1 1 0;  % 实现说明。
-              0 0 1 0 0];  % 实现说明。
+1 1 0 1 1;  % 实现说明。
+0 1 1 1 0;  % 实现说明。
+0 0 1 0 0];  % 实现说明。
 
 % 实现说明。
 D = zeros(Nt, K);
@@ -18,18 +18,18 @@ for k = 1:K
     % 实现说明。
     space_bits = input_bits(k, 1:2);  % 实现说明。
     const_bits = input_bits(k, 3:5);  % 实现说明。
-    
+
     % 实现说明。
     n_k = bi2de(space_bits, 'left-msb') + 1;  % 实现说明。
-    
+
     % 实现说明。
     const_idx = bi2de(const_bits, 'left-msb');  % 实现说明。
     S_k = omega8^const_idx;  % 实现说明。
-    
+
     % 实现说明。
     d_k = zeros(Nt, 1);
     d_k(n_k) = S_k;  % 实现说明。
-    
+
     % 实现说明。
     D(:, k) = d_k;
 end

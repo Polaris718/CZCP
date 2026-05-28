@@ -30,7 +30,7 @@ b1 = czcp_set(1).b;
 
 % 实现说明。
 % 实现说明。
-exp_a1 = round(angle(a1)/(2*pi/q)); 
+exp_a1 = round(angle(a1)/(2*pi/q));
 exp_a1(exp_a1<0) = exp_a1(exp_a1<0) + q;  % 实现说明。
 exp_b1 = round(angle(b1)/(2*pi/q));
 exp_b1(exp_b1<0) = exp_b1(exp_b1<0) + q;

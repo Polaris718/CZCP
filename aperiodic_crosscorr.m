@@ -7,7 +7,7 @@ function [tau, rho_xy] = aperiodic_crosscorr(x, y)
     N = length(x);
     tau = -(N-1):N-1;
     rho_xy = zeros(size(tau));
-    
+
     for idx = 1:length(tau)
         t = tau(idx);
         if t >= 0

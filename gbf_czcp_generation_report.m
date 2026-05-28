@@ -7,20 +7,20 @@ function [is_valid, results] = czcp_condition_check(a, b, Z)
     [~, rho_b] = aperiodic_autocorr(b);
     [~, rho_ab] = aperiodic_crosscorr(a, b);
     [~, rho_ba] = aperiodic_crosscorr(b, a);
-    
+
     % 实现说明。
     T1 = 1:Z;
     T2 = (N-Z):(N-1);
     idx_C1 = ismember(abs(tau_all), [T1, T2]);  % 实现说明。
     idx_C2 = ismember(abs(tau_all), T2);  % 实现说明。
-    
+
     % 实现说明。
     C1_vals = rho_a(idx_C1) + rho_b(idx_C1);
     C2_vals = rho_ab(idx_C2) + rho_ba(idx_C2);
-    
+
     is_valid_C1 = all(abs(C1_vals) < 1e-10);
     is_valid_C2 = all(abs(C2_vals) < 1e-10);
-    
+
     is_valid = is_valid_C1 && is_valid_C2;
     results.C1_vals = C1_vals;
     results.C2_vals = C2_vals;
