@@ -1,49 +1,54 @@
-﻿# CZCP-SM training-sequence study implementation Summary
+# CZCP-SM 训练序列实验实现总结
 
-This document summarizes the current MATLAB implementation status for the CZCP-SM training-sequence training-sequence study.
+本文档总结当前 MATLAB 工程中 CZCP-SM 训练序列实验的实现状态、输出文件、已知限制和本地验证记录。
 
-## Run Entry Point
+## 运行入口
 
-Run the full experiment suite in MATLAB with:
+在 MATLAB 中运行完整实验套件：
 
 ```matlab
 run_all_experiments
 ```
 
-The runner executes:
+该入口脚本会依次执行：
 
-- `verify_czcp_conditions`
-- `verify_czcs_construction`
+- `golay_pair_definition`
+- `gbf_definition_sequence`
+- `qary_gbf_czcp_conditions_report`
+- `czcs_from_czcp_construction_report`
 - `run_training_mse_experiment`
 - `plot_training_mse_comparison`
 - `plot_training_mse_baselines`
 - `monte_carlo_channel_simulation`
 
-It checks the main `.mat` and `.png` outputs. When launched through this entry point, figure windows are preserved so later scripts do not close earlier plots. At the end, the main PNG outputs are reopened as persistent preview figures.
+脚本会检查主要 `.mat` 和 `.png` 输出文件是否生成。通过该入口运行时，会保留图窗，避免后续脚本关闭前面生成的图；运行结束后，还会重新打开主要 PNG 图像作为预览。
 
-The run log is saved as:
+运行日志保存为：
 
 - `experiment_run_log.txt`
 
-To preserve figure windows when running a single script, execute:
+如果单独运行某个绘图脚本，并希望保留图窗，可先执行：
 
 ```matlab
-setappdata(0, 'KEEP_training-sequence study_FIGURES', true)
+setappdata(0, 'KEEP_EXPERIMENT_FIGURES', true)
 ```
 
-## Implemented Content
+## 已实现内容
 
-- Section II/III correlation utilities and CZCP/CZCS construction checks.
-- Training matrix `X`, Gram matrix `X' * X`, and theoretical LS-MSE computation.
-- CZCP versus random same-support performance comparison.
-- MSE versus EbNo comparison with `Nt = 4`, path number `5`, and `J = 2, 6, 18`.
-- MSE versus path-number comparison curves for CZCP, GCP, m-sequence, Barker, Gold, Zadoff-Chu, Random, and Minimum MSE.
-- Barker baseline with the specified `4 x 104` sparse training structure.
-- Monte Carlo random-channel LS estimation validation.
+- 第二、三节相关函数工具：非周期相关、循环相关、自相关、互相关等。
+- GBF、GCP、q 元复指数序列等基础构造工具。
+- CZCP 定义、性质示例、完美 CZCP 构造与 CZCS 条件验证。
+- 训练矩阵 `X`、Gram 矩阵 `X' * X` 和理论 LS-MSE 计算。
+- CZCP 训练与同支撑随机训练的性能对比。
+- `Nt = 4`、路径数为 `5`、`J = 2, 6, 18` 时的 MSE-EbNo 曲线。
+- `EbNo = 16 dB`、`E = 32` 时的 MSE-路径数曲线。
+- 路径数对比中的 CZCP、GCP、m 序列、Barker、Gold、Zadoff-Chu、Random 和 Minimum MSE 曲线。
+- Barker 基线采用指定的 `4 x 104` 稀疏训练结构。
+- 随机信道下 LS 信道估计的 Monte Carlo 验证。
 
-## Output Files
+## 输出文件
 
-Output images now use English filenames:
+当前脚本生成英文命名的结果文件：
 
 - `training_mse_experiment_results.mat`
 - `training_mse_experiment.png`
@@ -56,41 +61,62 @@ Output images now use English filenames:
 - `monte_carlo_channel_results.mat`
 - `monte_carlo_channel_mse.png`
 
-Older Chinese-named PNG files may still exist from previous runs; they are no longer produced by the current scripts.
+旧版本运行产生的中文命名 PNG 可能仍留在目录中，但当前脚本不再生成这些旧文件名。
 
-## Limitations
+## 已知限制
 
-- The authors' official MATLAB code was not available.
-- The Gold curve uses a standard length-31 Gold sequence construction.
-- The CAN curve is omitted because the official CAN coefficients are unavailable.
-- Therefore, the path-number comparison should be described as a baseline-structure implementation rather than a one-to-one implementation of every official curve.
+- 未获得论文作者的官方 MATLAB 代码。
+- Gold 曲线使用标准 length-31 Gold 序列构造。
+- CAN 曲线暂未加入，因为缺少作者官方 CAN 系数或官方 MSE 代码。
+- 因此，路径数对比应描述为“基线结构复现实验”，而不是对所有官方曲线的一比一完全复现。
 
-## Verification Status
+## 实验逻辑
 
-The full suite was successfully run locally with:
+整体计算流程为：
+
+```text
+训练序列
+    -> 稀疏训练矩阵 Omega
+    -> 信道训练矩阵 X
+    -> Gram 矩阵 X' * X
+    -> 与 E * I 对比
+    -> LS-MSE = sigma2 * trace(inv(X' * X)) / 参数个数
+    -> 生成 MSE-SNR 或 MSE-路径数曲线
+```
+
+当 `X' * X` 接近 `E * I` 时，训练矩阵近似正交，LS 信道估计 MSE 较低。CZCP 训练的目标是达到理论下界：
+
+```matlab
+MSE_min = noise_var / E
+```
+
+## 本地验证状态
+
+完整实验套件曾通过以下命令在本地运行：
 
 ```powershell
 matlab -batch "run_all_experiments"
 ```
 
-Verification time: 2026-05-06 18:52:00 to 18:52:27.
+验证时间：2026-05-06 18:52:00 至 18:52:27。
 
-Run result:
+运行结果：
 
-- `verify_czcp_conditions`: PASS.
-- `verify_czcs_construction`: PASS.
-- `run_training_mse_experiment`: PASS.
-- `plot_training_mse_comparison`: PASS.
-- `plot_training_mse_baselines`: PASS.
-- `monte_carlo_channel_simulation`: PASS.
-- All main `.mat` and `.png` output artifacts were generated.
-- All main output figures were displayed at the end of the run.
+- `golay_pair_definition`：PASS。
+- `gbf_definition_sequence`：PASS。
+- `qary_gbf_czcp_conditions_report`：PASS。
+- `czcs_from_czcp_construction_report`：PASS。
+- `run_training_mse_experiment`：PASS。
+- `plot_training_mse_comparison`：PASS。
+- `plot_training_mse_baselines`：PASS。
+- `monte_carlo_channel_simulation`：PASS。
+- 所有主要 `.mat` 和 `.png` 输出文件均已生成。
+- 主要输出图像在运行结束时均已显示。
 
-Key values:
+关键数值：
 
-- CZCP Gram maximum error: `1.42e-15`.
-- Random Gram maximum error: `8.94e+00`.
-- Per-transmit-antenna training energy: `E = 32`.
-- The CZCP theoretical MSE matches the lower bound, e.g. `3.1250e-02` at SNR = 0 dB and `3.1250e-05` at SNR = 30 dB.
-- Monte Carlo results match the theoretical LS-MSE trend, e.g. CZCP empirical/theory values are `3.1176e-02 / 3.1250e-02` at SNR = 0 dB and `3.1515e-05 / 3.1250e-05` at SNR = 30 dB.
-
+- CZCP Gram 最大误差：`1.42e-15`。
+- 随机训练 Gram 最大误差：`8.94e+00`。
+- 每根发射天线训练能量：`E = 32`。
+- CZCP 理论 MSE 与下界一致，例如 SNR = 0 dB 时为 `3.1250e-02`，SNR = 30 dB 时为 `3.1250e-05`。
+- Monte Carlo 结果与理论 LS-MSE 趋势一致，例如 CZCP 在 SNR = 0 dB 时经验值/理论值为 `3.1176e-02 / 3.1250e-02`，在 SNR = 30 dB 时为 `3.1515e-05 / 3.1250e-05`。
