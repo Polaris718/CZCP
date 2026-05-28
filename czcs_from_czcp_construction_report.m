@@ -29,7 +29,7 @@ fprintf('Output: %d, %d, %d\n', M, N, Z);
 % 实现说明。
 fprintf('Output\n');
 try
-    [is_valid, results] = verify_czcs(czcs_set, Z);
+    [is_valid, results] = czcs_condition_check(czcs_set, Z);
 catch ME
     error('Invalid input: %s', ME.message);
 end

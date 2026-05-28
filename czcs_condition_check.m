@@ -1,5 +1,5 @@
 %% CZCS条件验证
-function [is_valid, results] = verify_czcs(czcs_set, Z)
+function [is_valid, results] = czcs_condition_check(czcs_set, Z)
     % 输入：
     %   czcs_set - CZCS序列集；czcs_set(m).seq表示第m条序列。
     %   Z        - 零相关区宽度。

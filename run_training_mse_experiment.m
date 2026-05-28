@@ -19,7 +19,7 @@ seed_type = 2;
 a = czcp_pair.a;
 b = czcp_pair.b;
 
-[is_perfect, czcp_results] = verify_perfect_czcp(a, b);
+[is_perfect, czcp_results] = perfect_czcp_condition_check(a, b);
 fprintf('Perfect CZCP check: %d, theta=%d, Z=%d\n', is_perfect, theta, Z);
 fprintf('CZCP max C1 residual: %.2e\n', max(abs(czcp_results.C1_vals)));
 fprintf('CZCP max C2 residual: %.2e\n', max(abs(czcp_results.C2_vals)));

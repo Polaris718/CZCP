@@ -1,7 +1,7 @@
 clear; clc; close all;
 
 % 实现说明。
-function [is_valid, results] = verify_czcp(a, b, Z)
+function [is_valid, results] = czcp_condition_check(a, b, Z)
     N = length(a);
     [tau_all, rho_a] = aperiodic_autocorr(a);
     [~, rho_b] = aperiodic_autocorr(b);
@@ -89,7 +89,7 @@ fprintf('Output\n');
 disp(ACC_sum(idx_T2));
 
 % 实现说明。
-[is_valid, results] = verify_czcp(a1, b1, Z);
+[is_valid, results] = czcp_condition_check(a1, b1, Z);
 
 fprintf('Output\n');
 if is_valid

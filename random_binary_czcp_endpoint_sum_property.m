@@ -50,7 +50,7 @@ for i = 0:Z-1
 end
 
 % 检查零相关区宽度Z = N/2时的CZCP条件。
-[is_czcp, czcp_results] = verify_perfect_czcp(a, b);
+[is_czcp, czcp_results] = perfect_czcp_condition_check(a, b);
 cond_czcp_width = (Z == N / 2);
 
 disp('Random binary unit-modulus CZCP pair');

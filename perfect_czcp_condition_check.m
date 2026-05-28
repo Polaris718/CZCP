@@ -1,4 +1,4 @@
-function [is_perfect, results] = verify_perfect_czcp(a, b)
+function [is_perfect, results] = perfect_czcp_condition_check(a, b)
     N = length(a);
     Z = N/2; % 完美CZCP满足Z = N/2。
     [tau_all, rho_a] = aperiodic_autocorr(a);
