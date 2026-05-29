@@ -67,19 +67,11 @@ path_curves = compute_path_mse_curves(Nt, a16, b16, gcp_a16, gcp_b16, mseq31, ..
 
 save('mse_comparison_results.mat', 'ebno_curves', 'path_curves');
 
-figure('Color', 'w', 'Position', [100, 100, 1100, 450]);
+figure('Color', 'w', 'Position', [80, 80, 1450, 650]);
 tiledlayout(1, 2, 'TileSpacing', 'compact', 'Padding', 'compact');
 
-nexttile;
-colors = lines(length(J_list));
-for j_idx = 1:length(J_list)
-    plot(ebno_db_grid, ebno_curves.proposed_db(j_idx, :), '-', ...
-        'Color', colors(j_idx, :), 'LineWidth', 1.7); hold on;
-    plot(ebno_db_grid, ebno_curves.random_db(j_idx, :), '--', ...
-        'Color', colors(j_idx, :), 'LineWidth', 1.5);
-    plot(ebno_db_grid, ebno_curves.bound_db(j_idx, :), ':', ...
-        'Color', colors(j_idx, :), 'LineWidth', 1.4);
-end
+ax_ebno = nexttile;
+plot_ebno_curves(ax_ebno, ebno_db_grid, ebno_curves, J_list);
 grid on;
 xlabel('EbNo per TA (dB)');
 ylabel('MSE (dB)');
@@ -88,34 +80,23 @@ legend('CZCP J=2', 'Random J=2', 'Min J=2', ...
     'CZCP J=6', 'Random J=6', 'Min J=6', ...
     'CZCP J=18', 'Random J=18', 'Min J=18', ...
     'Location', 'southwest');
+add_ebno_inset(ax_ebno, ebno_db_grid, ebno_curves, J_list);
 
-nexttile;
-plot(path_grid, path_curves.proposed_db, 'o-', 'LineWidth', 1.8); hold on;
-plot(path_grid, path_curves.gcp_db, 's-', 'LineWidth', 1.5);
-plot(path_grid, path_curves.mseq_db, '^-', 'LineWidth', 1.5);
-plot(path_grid, path_curves.barker_db, 'd-', 'LineWidth', 1.5);
-plot(path_grid, path_curves.gold_db, 'v-', 'LineWidth', 1.5);
-plot(path_grid, path_curves.zc_db, 'x-', 'LineWidth', 1.5);
-plot(path_grid, path_curves.random_db, '--', 'LineWidth', 1.5);
-plot(path_grid, path_curves.bound_db, 'k:', 'LineWidth', 1.4);
+ax_paths = nexttile;
+plot_path_curves(ax_paths, path_grid, path_curves);
 grid on;
 xlabel('Number of multi-paths');
 ylabel('MSE (dB)');
 title('(b) EbNo = 16 dB, E = 32');
 legend('CZCP', 'GCP', 'm-sequence', 'Barker', 'Gold', ...
     'Zadoff-Chu', 'Random', 'Minimum MSE', 'Location', 'northwest');
+add_path_inset(ax_paths, path_grid, path_curves);
 
 saveas(gcf, 'mse_comparison_both.png');
 
-figure('Color', 'w');
-for j_idx = 1:length(J_list)
-    plot(ebno_db_grid, ebno_curves.proposed_db(j_idx, :), '-', ...
-        'Color', colors(j_idx, :), 'LineWidth', 1.7); hold on;
-    plot(ebno_db_grid, ebno_curves.random_db(j_idx, :), '--', ...
-        'Color', colors(j_idx, :), 'LineWidth', 1.5);
-    plot(ebno_db_grid, ebno_curves.bound_db(j_idx, :), ':', ...
-        'Color', colors(j_idx, :), 'LineWidth', 1.4);
-end
+figure('Color', 'w', 'Position', [100, 100, 1050, 720]);
+ax_ebno_single = axes;
+plot_ebno_curves(ax_ebno_single, ebno_db_grid, ebno_curves, J_list);
 grid on;
 xlabel('EbNo per TA (dB)');
 ylabel('MSE (dB)');
@@ -124,23 +105,19 @@ legend('CZCP J=2', 'Random J=2', 'Min J=2', ...
     'CZCP J=6', 'Random J=6', 'Min J=6', ...
     'CZCP J=18', 'Random J=18', 'Min J=18', ...
     'Location', 'southwest');
+add_ebno_inset(ax_ebno_single, ebno_db_grid, ebno_curves, J_list);
 saveas(gcf, 'mse_vs_ebno.png');
 
-figure('Color', 'w');
-plot(path_grid, path_curves.proposed_db, 'o-', 'LineWidth', 1.8); hold on;
-plot(path_grid, path_curves.gcp_db, 's-', 'LineWidth', 1.5);
-plot(path_grid, path_curves.mseq_db, '^-', 'LineWidth', 1.5);
-plot(path_grid, path_curves.barker_db, 'd-', 'LineWidth', 1.5);
-plot(path_grid, path_curves.gold_db, 'v-', 'LineWidth', 1.5);
-plot(path_grid, path_curves.zc_db, 'x-', 'LineWidth', 1.5);
-plot(path_grid, path_curves.random_db, '--', 'LineWidth', 1.5);
-plot(path_grid, path_curves.bound_db, 'k:', 'LineWidth', 1.4);
+figure('Color', 'w', 'Position', [100, 100, 1050, 720]);
+ax_paths_single = axes;
+plot_path_curves(ax_paths_single, path_grid, path_curves);
 grid on;
 xlabel('Number of multi-paths');
 ylabel('MSE (dB)');
 title('MSE versus Number of Paths');
 legend('CZCP', 'GCP', 'm-sequence', 'Barker', 'Gold', ...
     'Zadoff-Chu', 'Random', 'Minimum MSE', 'Location', 'northwest');
+add_path_inset(ax_paths_single, path_grid, path_curves);
 saveas(gcf, 'mse_vs_paths.png');
 
 fprintf('Saved:\n');
@@ -148,6 +125,114 @@ fprintf('  mse_comparison_results.mat\n');
 fprintf('  mse_comparison_both.png\n');
 fprintf('  mse_vs_ebno.png\n');
 fprintf('  mse_vs_paths.png\n');
+
+function plot_ebno_curves(ax, ebno_db_grid, ebno_curves, J_list)
+    axes(ax);
+    for j_idx = 1:length(J_list)
+        [line_style, marker, color, line_width] = ebno_curve_style(j_idx, 'czcp');
+        plot(ebno_db_grid, ebno_curves.proposed_db(j_idx, :), line_style, ...
+            'Color', color, 'LineWidth', line_width, 'Marker', marker, ...
+            'MarkerSize', 6.5, 'MarkerFaceColor', 'w'); hold on;
+
+        [line_style, marker, color, line_width] = ebno_curve_style(j_idx, 'random');
+        plot(ebno_db_grid, ebno_curves.random_db(j_idx, :), line_style, ...
+            'Color', color, 'LineWidth', line_width, 'Marker', marker, ...
+            'MarkerSize', 6.5, 'MarkerFaceColor', 'w');
+
+        [line_style, marker, color, line_width] = ebno_curve_style(j_idx, 'bound');
+        plot(ebno_db_grid, ebno_curves.bound_db(j_idx, :), line_style, ...
+            'Color', color, 'LineWidth', line_width, 'Marker', marker, ...
+            'MarkerSize', 7);
+    end
+end
+
+function plot_path_curves(ax, path_grid, path_curves)
+    axes(ax);
+    plot(path_grid, path_curves.proposed_db, 'o-', ...
+        'Color', [0, 0, 0], 'LineWidth', 1.9, ...
+        'MarkerSize', 7, 'MarkerFaceColor', 'w'); hold on;
+    plot(path_grid, path_curves.gcp_db, 's-', ...
+        'Color', [0.18, 0.18, 0.18], 'LineWidth', 1.6, ...
+        'MarkerSize', 6.5, 'MarkerFaceColor', 'w');
+    plot(path_grid, path_curves.mseq_db, '^-', ...
+        'Color', [0.35, 0.35, 0.35], 'LineWidth', 1.6, ...
+        'MarkerSize', 6.5, 'MarkerFaceColor', 'w');
+    plot(path_grid, path_curves.barker_db, 'd-.', ...
+        'Color', [0, 0, 0], 'LineWidth', 1.6, ...
+        'MarkerSize', 6.5, 'MarkerFaceColor', 'w');
+    plot(path_grid, path_curves.gold_db, 'v--', ...
+        'Color', [0.25, 0.25, 0.25], 'LineWidth', 1.6, ...
+        'MarkerSize', 6.5, 'MarkerFaceColor', 'w');
+    plot(path_grid, path_curves.zc_db, 'x:', ...
+        'Color', [0, 0, 0], 'LineWidth', 1.8, ...
+        'MarkerSize', 7);
+    plot(path_grid, path_curves.random_db, '>--', ...
+        'Color', [0.48, 0.48, 0.48], 'LineWidth', 1.6, ...
+        'MarkerSize', 6.5, 'MarkerFaceColor', 'w');
+    plot(path_grid, path_curves.bound_db, '+:', ...
+        'Color', [0, 0, 0], 'LineWidth', 1.7, ...
+        'MarkerSize', 7);
+end
+
+function [line_style, marker, color, line_width] = ebno_curve_style(j_idx, curve_type)
+    gray = [0, 0, 0; 0.28, 0.28, 0.28; 0.52, 0.52, 0.52];
+    switch curve_type
+        case 'czcp'
+            markers = {'o', 's', '^'};
+            line_style = '-';
+            marker = markers{j_idx};
+            color = gray(j_idx, :);
+            line_width = 1.9;
+        case 'random'
+            markers = {'d', 'v', '>'};
+            line_style = '--';
+            marker = markers{j_idx};
+            color = gray(j_idx, :);
+            line_width = 1.7;
+        otherwise
+            markers = {'x', '+', '*'};
+            line_style = ':';
+            marker = markers{j_idx};
+            color = gray(j_idx, :);
+            line_width = 1.7;
+    end
+end
+
+function add_ebno_inset(parent_ax, ebno_db_grid, ebno_curves, J_list)
+    pos = parent_ax.Position;
+    inset_pos = [pos(1) + 0.58 * pos(3), pos(2) + 0.54 * pos(4), ...
+        0.34 * pos(3), 0.34 * pos(4)];
+    inset_ax = axes('Position', inset_pos);
+    plot_ebno_curves(inset_ax, ebno_db_grid, ebno_curves, J_list);
+    zoom_mask = ebno_db_grid >= max(ebno_db_grid) - 6;
+    y_focus = [ebno_curves.proposed_db(:, zoom_mask); ebno_curves.bound_db(:, zoom_mask)];
+    xlim([max(ebno_db_grid) - 6, max(ebno_db_grid)]);
+    ylim([min(y_focus(:)) - 0.35, max(y_focus(:)) + 0.35]);
+    grid on;
+    set(gca, 'FontSize', 9, 'Box', 'on');
+    xlabel('');
+    ylabel('');
+    title('Zoom', 'FontSize', 9);
+    axes(parent_ax);
+end
+
+function add_path_inset(parent_ax, path_grid, path_curves)
+    pos = parent_ax.Position;
+    inset_pos = [pos(1) + 0.58 * pos(3), pos(2) + 0.54 * pos(4), ...
+        0.34 * pos(3), 0.34 * pos(4)];
+    inset_ax = axes('Position', inset_pos);
+    plot_path_curves(inset_ax, path_grid, path_curves);
+    zoom_mask = path_grid <= min(path_grid) + 4;
+    y_focus = [path_curves.proposed_db(zoom_mask); path_curves.bound_db(zoom_mask)];
+    xlim([min(path_grid), min(path_grid) + 4]);
+    ylim([min(y_focus(:)) - 0.25, max(y_focus(:)) + 0.25]);
+    grid on;
+    set(gca, 'FontSize', 9, 'Box', 'on');
+    xlabel('');
+    ylabel('');
+    title('Zoom', 'FontSize', 9);
+    axes(parent_ax);
+end
 
 function ebno_curves = compute_ebno_mse_curves(Nt, a, b, paths, J_list, ebno_db, random_trials)
     theta = length(a);
