@@ -87,12 +87,13 @@ end
 function plot_training_mse_axes(ax, snr_db, mse_czcp, bound, mse_random)
     axes(ax);
     semilogy(snr_db, mse_czcp, 'o-', ...
-        'Color', [0, 0, 0], 'LineWidth', 1.9, ...
+        'Color', [0.0000, 0.4470, 0.7410], 'LineWidth', 1.9, ...
         'MarkerSize', 7, 'MarkerFaceColor', 'w'); hold on;
-    semilogy(snr_db, bound, 'k:', ...
-        'LineWidth', 1.8, 'Marker', 'x', 'MarkerSize', 8);
+    semilogy(snr_db, bound, 'x:', ...
+        'Color', [0.8500, 0.3250, 0.0980], 'LineWidth', 1.8, ...
+        'MarkerSize', 8);
     semilogy(snr_db, mse_random, 's--', ...
-        'Color', [0.35, 0.35, 0.35], 'LineWidth', 1.8, ...
+        'Color', [0.4660, 0.6740, 0.1880], 'LineWidth', 1.8, ...
         'MarkerSize', 7, 'MarkerFaceColor', 'w');
 end
 
@@ -105,7 +106,14 @@ function add_training_mse_inset(parent_ax, snr_db, mse_czcp, bound, mse_random)
     high_snr_mask = snr_db >= max(snr_db) - 10;
     y_focus = [mse_czcp(high_snr_mask), bound(high_snr_mask)];
     xlim([max(snr_db) - 10, max(snr_db)]);
-    ylim([0.85 * min(y_focus(:)), 1.25 * max(y_focus(:))]);
+    y_min = min(y_focus(:));
+    y_max = max(y_focus(:));
+    if y_max <= y_min
+        y_pad = max(y_min * 0.08, eps);
+    else
+        y_pad = 0.18 * (y_max - y_min);
+    end
+    ylim([max(y_min - y_pad, eps), y_max + y_pad]);
     grid on;
     set(gca, 'FontSize', 9, 'Box', 'on');
     xlabel('');

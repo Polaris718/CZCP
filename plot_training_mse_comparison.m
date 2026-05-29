@@ -43,12 +43,13 @@ fprintf('  training_gram_error_comparison.png\n');
 function plot_training_mse_axes(ax, results)
     axes(ax);
     semilogy(results.snr_db, results.mse_czcp, 'o-', ...
-        'Color', [0, 0, 0], 'LineWidth', 1.9, ...
+        'Color', [0.0000, 0.4470, 0.7410], 'LineWidth', 1.9, ...
         'MarkerSize', 7, 'MarkerFaceColor', 'w'); hold on;
-    semilogy(results.snr_db, results.bound, 'k:', ...
-        'LineWidth', 1.8, 'Marker', 'x', 'MarkerSize', 8);
+    semilogy(results.snr_db, results.bound, 'x:', ...
+        'Color', [0.8500, 0.3250, 0.0980], 'LineWidth', 1.8, ...
+        'MarkerSize', 8);
     semilogy(results.snr_db, results.mse_random, 's--', ...
-        'Color', [0.35, 0.35, 0.35], 'LineWidth', 1.8, ...
+        'Color', [0.4660, 0.6740, 0.1880], 'LineWidth', 1.8, ...
         'MarkerSize', 7, 'MarkerFaceColor', 'w');
 end
 
@@ -58,10 +59,17 @@ function add_training_mse_inset(parent_ax, results)
         0.34 * pos(3), 0.34 * pos(4)];
     inset_ax = axes('Position', inset_pos);
     plot_training_mse_axes(inset_ax, results);
-    xlim([max(results.snr_db) - 10, max(results.snr_db)]);
     high_snr_mask = results.snr_db >= max(results.snr_db) - 10;
     y_focus = [results.mse_czcp(high_snr_mask), results.bound(high_snr_mask)];
-    ylim([0.85 * min(y_focus(:)), 1.25 * max(y_focus(:))]);
+    xlim([max(results.snr_db) - 10, max(results.snr_db)]);
+    y_min = min(y_focus(:));
+    y_max = max(y_focus(:));
+    if y_max <= y_min
+        y_pad = max(y_min * 0.08, eps);
+    else
+        y_pad = 0.18 * (y_max - y_min);
+    end
+    ylim([max(y_min - y_pad, eps), y_max + y_pad]);
     grid on;
     set(gca, 'FontSize', 9, 'Box', 'on');
     xlabel('');

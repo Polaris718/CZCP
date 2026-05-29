@@ -149,51 +149,53 @@ end
 function plot_path_curves(ax, path_grid, path_curves)
     axes(ax);
     plot(path_grid, path_curves.proposed_db, 'o-', ...
-        'Color', [0, 0, 0], 'LineWidth', 1.9, ...
+        'Color', [0.0000, 0.4470, 0.7410], 'LineWidth', 1.9, ...
         'MarkerSize', 7, 'MarkerFaceColor', 'w'); hold on;
     plot(path_grid, path_curves.gcp_db, 's-', ...
-        'Color', [0.18, 0.18, 0.18], 'LineWidth', 1.6, ...
+        'Color', [0.8500, 0.3250, 0.0980], 'LineWidth', 1.6, ...
         'MarkerSize', 6.5, 'MarkerFaceColor', 'w');
     plot(path_grid, path_curves.mseq_db, '^-', ...
-        'Color', [0.35, 0.35, 0.35], 'LineWidth', 1.6, ...
+        'Color', [0.9290, 0.6940, 0.1250], 'LineWidth', 1.6, ...
         'MarkerSize', 6.5, 'MarkerFaceColor', 'w');
     plot(path_grid, path_curves.barker_db, 'd-.', ...
-        'Color', [0, 0, 0], 'LineWidth', 1.6, ...
+        'Color', [0.4940, 0.1840, 0.5560], 'LineWidth', 1.6, ...
         'MarkerSize', 6.5, 'MarkerFaceColor', 'w');
     plot(path_grid, path_curves.gold_db, 'v--', ...
-        'Color', [0.25, 0.25, 0.25], 'LineWidth', 1.6, ...
+        'Color', [0.4660, 0.6740, 0.1880], 'LineWidth', 1.6, ...
         'MarkerSize', 6.5, 'MarkerFaceColor', 'w');
     plot(path_grid, path_curves.zc_db, 'x:', ...
-        'Color', [0, 0, 0], 'LineWidth', 1.8, ...
+        'Color', [0.3010, 0.7450, 0.9330], 'LineWidth', 1.8, ...
         'MarkerSize', 7);
     plot(path_grid, path_curves.random_db, '>--', ...
-        'Color', [0.48, 0.48, 0.48], 'LineWidth', 1.6, ...
+        'Color', [0.6350, 0.0780, 0.1840], 'LineWidth', 1.6, ...
         'MarkerSize', 6.5, 'MarkerFaceColor', 'w');
     plot(path_grid, path_curves.bound_db, '+:', ...
-        'Color', [0, 0, 0], 'LineWidth', 1.7, ...
+        'Color', [0.2500, 0.2500, 0.2500], 'LineWidth', 1.7, ...
         'MarkerSize', 7);
 end
 
 function [line_style, marker, color, line_width] = ebno_curve_style(j_idx, curve_type)
-    gray = [0, 0, 0; 0.28, 0.28, 0.28; 0.52, 0.52, 0.52];
+    colors = [0.0000, 0.4470, 0.7410; ...
+              0.8500, 0.3250, 0.0980; ...
+              0.4940, 0.1840, 0.5560];
     switch curve_type
         case 'czcp'
             markers = {'o', 's', '^'};
             line_style = '-';
             marker = markers{j_idx};
-            color = gray(j_idx, :);
+            color = colors(j_idx, :);
             line_width = 1.9;
         case 'random'
             markers = {'d', 'v', '>'};
             line_style = '--';
             marker = markers{j_idx};
-            color = gray(j_idx, :);
+            color = colors(j_idx, :);
             line_width = 1.7;
         otherwise
             markers = {'x', '+', '*'};
             line_style = ':';
             marker = markers{j_idx};
-            color = gray(j_idx, :);
+            color = colors(j_idx, :);
             line_width = 1.7;
     end
 end
@@ -207,7 +209,9 @@ function add_ebno_inset(parent_ax, ebno_db_grid, ebno_curves, J_list)
     zoom_mask = ebno_db_grid >= max(ebno_db_grid) - 6;
     y_focus = [ebno_curves.proposed_db(:, zoom_mask); ebno_curves.bound_db(:, zoom_mask)];
     xlim([max(ebno_db_grid) - 6, max(ebno_db_grid)]);
-    ylim([min(y_focus(:)) - 0.35, max(y_focus(:)) + 0.35]);
+    y_span = max(y_focus(:)) - min(y_focus(:));
+    y_pad = max(0.08 * y_span, 0.08);
+    ylim([min(y_focus(:)) - y_pad, max(y_focus(:)) + y_pad]);
     grid on;
     set(gca, 'FontSize', 9, 'Box', 'on');
     xlabel('');
@@ -225,7 +229,9 @@ function add_path_inset(parent_ax, path_grid, path_curves)
     zoom_mask = path_grid <= min(path_grid) + 4;
     y_focus = [path_curves.proposed_db(zoom_mask); path_curves.bound_db(zoom_mask)];
     xlim([min(path_grid), min(path_grid) + 4]);
-    ylim([min(y_focus(:)) - 0.25, max(y_focus(:)) + 0.25]);
+    y_span = max(y_focus(:)) - min(y_focus(:));
+    y_pad = max(0.12 * y_span, 0.08);
+    ylim([min(y_focus(:)) - y_pad, max(y_focus(:)) + y_pad]);
     grid on;
     set(gca, 'FontSize', 9, 'Box', 'on');
     xlabel('');
