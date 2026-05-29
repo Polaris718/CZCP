@@ -119,5 +119,5 @@ function add_training_mse_inset(parent_ax, snr_db, mse_czcp, bound, mse_random)
     xlabel('');
     ylabel('');
     title('Zoom', 'FontSize', 9);
-    axes(parent_ax);
+    uistack(inset_ax, 'top');
 end

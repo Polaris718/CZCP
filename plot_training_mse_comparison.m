@@ -75,5 +75,5 @@ function add_training_mse_inset(parent_ax, results)
     xlabel('');
     ylabel('');
     title('Zoom', 'FontSize', 9);
-    axes(parent_ax);
+    uistack(inset_ax, 'top');
 end

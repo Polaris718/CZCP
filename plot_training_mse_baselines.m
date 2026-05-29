@@ -217,7 +217,7 @@ function add_ebno_inset(parent_ax, ebno_db_grid, ebno_curves, J_list)
     xlabel('');
     ylabel('');
     title('Zoom', 'FontSize', 9);
-    axes(parent_ax);
+    uistack(inset_ax, 'top');
 end
 
 function add_path_inset(parent_ax, path_grid, path_curves)
@@ -237,7 +237,7 @@ function add_path_inset(parent_ax, path_grid, path_curves)
     xlabel('');
     ylabel('');
     title('Zoom', 'FontSize', 9);
-    axes(parent_ax);
+    uistack(inset_ax, 'top');
 end
 
 function ebno_curves = compute_ebno_mse_curves(Nt, a, b, paths, J_list, ebno_db, random_trials)
