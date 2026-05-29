@@ -54,26 +54,99 @@ function plot_training_mse_axes(ax, results)
 end
 
 function add_training_mse_inset(parent_ax, results)
-    pos = parent_ax.Position;
-    inset_pos = [pos(1) + 0.56 * pos(3), pos(2) + 0.55 * pos(4), ...
-        0.34 * pos(3), 0.34 * pos(4)];
+    data_x = repmat(results.snr_db(:), 3, 1);
+    data_y = [results.mse_czcp(:); results.bound(:); results.mse_random(:)];
+    inset_pos = choose_inset_position(parent_ax, data_x, data_y, 0.34, 0.34);
     inset_ax = axes('Position', inset_pos);
     plot_training_mse_axes(inset_ax, results);
-    high_snr_mask = results.snr_db >= max(results.snr_db) - 10;
+    high_snr_mask = results.snr_db >= max(results.snr_db) - 5;
     y_focus = [results.mse_czcp(high_snr_mask), results.bound(high_snr_mask)];
-    xlim([max(results.snr_db) - 10, max(results.snr_db)]);
+    xlim([max(results.snr_db) - 5, max(results.snr_db)]);
     y_min = min(y_focus(:));
     y_max = max(y_focus(:));
-    if y_max <= y_min
-        y_pad = max(y_min * 0.08, eps);
-    else
-        y_pad = 0.18 * (y_max - y_min);
-    end
-    ylim([max(y_min - y_pad, eps), y_max + y_pad]);
+    ylim([max(y_min / 1.25, eps), y_max * 1.25]);
     grid on;
     set(gca, 'FontSize', 9, 'Box', 'on');
     xlabel('');
     ylabel('');
     title('Zoom', 'FontSize', 9);
     uistack(inset_ax, 'top');
+end
+
+function inset_pos = choose_inset_position(parent_ax, data_x, data_y, inset_w, inset_h)
+    pos = parent_ax.Position;
+    if pos(3) > 0.55 && ~isa(parent_ax.Parent, 'matlab.graphics.layout.TiledChartLayout')
+        gap = 0.025;
+        inset_w_fig = 0.24;
+        inset_h_fig = 0.30;
+        new_width = max(0.50, pos(3) - inset_w_fig - gap);
+        parent_ax.Position = [pos(1), pos(2), new_width, pos(4)];
+        inset_pos = [pos(1) + new_width + gap, ...
+            pos(2) + pos(4) - inset_h_fig, inset_w_fig, inset_h_fig];
+        return;
+    end
+
+    data_x = densify_for_overlap(data_x);
+    data_y = densify_for_overlap(data_y);
+    margin = 0.03;
+    candidates = [
+        pos(1) + (1 - inset_w - margin) * pos(3), pos(2) + (1 - inset_h - margin) * pos(4);
+        pos(1) + margin * pos(3), pos(2) + (1 - inset_h - margin) * pos(4);
+        pos(1) + (1 - inset_w - margin) * pos(3), pos(2) + margin * pos(4);
+        pos(1) + margin * pos(3), pos(2) + margin * pos(4)];
+    rects = [candidates, inset_w * pos(3) * ones(4, 1), inset_h * pos(4) * ones(4, 1)];
+
+    x_lim = xlim(parent_ax);
+    y_lim = ylim(parent_ax);
+    x_norm = (data_x - x_lim(1)) / diff(x_lim);
+    if strcmp(parent_ax.YScale, 'log')
+        y_norm = (log10(data_y) - log10(y_lim(1))) / diff(log10(y_lim));
+    else
+        y_norm = (data_y - y_lim(1)) / diff(y_lim);
+    end
+    fig_x = pos(1) + x_norm * pos(3);
+    fig_y = pos(2) + y_norm * pos(4);
+
+    scores = zeros(4, 1);
+    for idx = 1:4
+        rect = rects(idx, :);
+        inside = fig_x >= rect(1) & fig_x <= rect(1) + rect(3) & ...
+            fig_y >= rect(2) & fig_y <= rect(2) + rect(4);
+        scores(idx) = sum(inside);
+    end
+    scores = scores + legend_overlap_scores(parent_ax, rects);
+
+    [~, best_idx] = min(scores);
+    inset_pos = rects(best_idx, :);
+end
+
+function dense_values = densify_for_overlap(values)
+    values = values(:);
+    dense_values = values;
+    if numel(values) < 2
+        return;
+    end
+    extra = [];
+    for idx = 1:numel(values)-1
+        extra = [extra; linspace(values(idx), values(idx + 1), 8).']; %#ok<AGROW>
+    end
+    dense_values = [dense_values; extra];
+end
+
+function scores = legend_overlap_scores(parent_ax, rects)
+    scores = zeros(size(rects, 1), 1);
+    legends = findobj(ancestor(parent_ax, 'figure'), 'Type', 'Legend');
+    for legend_idx = 1:numel(legends)
+        legend_pos = legends(legend_idx).Position;
+        for rect_idx = 1:size(rects, 1)
+            if rectangles_overlap(rects(rect_idx, :), legend_pos)
+                scores(rect_idx) = scores(rect_idx) + 100;
+            end
+        end
+    end
+end
+
+function does_overlap = rectangles_overlap(a, b)
+    does_overlap = a(1) < b(1) + b(3) && a(1) + a(3) > b(1) && ...
+        a(2) < b(2) + b(4) && a(2) + a(4) > b(2);
 end
