@@ -19,7 +19,7 @@ figure('Color', 'w', 'Position', [100, 100, 1050, 720]);
 ax = axes;
 plot_training_mse_axes(ax, results);
 grid on;
-xlabel('SNR (dB)');
+xlabel('EbNo per TA (dB)');
 ylabel('Normalized MSE');
 legend('CZCP training', 'Theoretical lower bound', ...
     'Random same-support training', 'Location', 'southwest');

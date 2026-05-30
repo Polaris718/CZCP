@@ -71,7 +71,7 @@ figure('Color', 'w', 'Position', [100, 100, 1050, 720]);
 ax = axes;
 plot_training_mse_axes(ax, snr_db, mse_czcp, bound, mse_random);
 grid on;
-xlabel('SNR (dB)');
+xlabel('EbNo per TA (dB)');
 ylabel('Normalized MSE');
 legend('CZCP training', 'Lower bound', 'Random same-support training', 'Location', 'southwest');
 title('CZCP-SM Training MSE Experiment');
@@ -79,7 +79,7 @@ add_training_mse_inset(ax, snr_db, mse_czcp, bound, mse_random);
 saveas(gcf, 'training_mse_experiment.png');
 
 fprintf('\nMSE table:\n');
-fprintf('SNR(dB)   CZCP-MSE        Bound           Random-MSE\n');
+fprintf('EbNo(dB)  CZCP-MSE        Bound           Random-MSE\n');
 for idx = 1:length(snr_db)
     fprintf('%6.1f   %.4e   %.4e   %.4e\n', snr_db(idx), mse_czcp(idx), bound(idx), mse_random(idx));
 end

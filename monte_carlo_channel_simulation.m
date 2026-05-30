@@ -46,7 +46,7 @@ results.empirical_czcp = zeros(size(snr_db));
 results.empirical_random = zeros(size(snr_db));
 results.bound = zeros(size(snr_db));
 
-fprintf('Running Monte Carlo LS channel simulation (%d trials per SNR)...\n', num_trials);
+fprintf('Running Monte Carlo LS channel simulation (%d trials per EbNo)...\n', num_trials);
 for idx = 1:length(snr_db)
     noise_var = 10^(-snr_db(idx) / 10);
 
@@ -59,7 +59,7 @@ for idx = 1:length(snr_db)
     results.empirical_czcp(idx) = empirical_ls_mse(X_czcp, noise_var, num_trials);
     results.empirical_random(idx) = empirical_ls_mse(X_random, noise_var, num_trials);
 
-    fprintf('SNR=%4.1f dB  CZCP empirical=%.4e  theory=%.4e\n', ...
+    fprintf('EbNo=%4.1f dB  CZCP empirical=%.4e  theory=%.4e\n', ...
         snr_db(idx), results.empirical_czcp(idx), results.theory_czcp(idx));
 end
 
@@ -69,7 +69,7 @@ figure('Color', 'w', 'Position', [100, 100, 1050, 720]);
 ax = axes;
 plot_monte_carlo_axes(ax, snr_db, results);
 grid on;
-xlabel('SNR (dB)');
+xlabel('EbNo per TA (dB)');
 ylabel('Normalized MSE');
 legend('CZCP theory', 'CZCP Monte Carlo', 'Lower bound', ...
     'Random theory', 'Random Monte Carlo', 'Location', 'southwest');
