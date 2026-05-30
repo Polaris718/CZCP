@@ -144,6 +144,7 @@ function plot_ebno_curves(ax, ebno_db_grid, ebno_curves, J_list)
             'Color', color, 'LineWidth', line_width, 'Marker', marker, ...
             'MarkerSize', 7);
     end
+    set(ax, 'FontSize', 14, 'LineWidth', 1.1);
 end
 
 function plot_path_curves(ax, path_grid, path_curves)
@@ -172,6 +173,7 @@ function plot_path_curves(ax, path_grid, path_curves)
     plot(path_grid, path_curves.bound_db, '+:', ...
         'Color', [0.2500, 0.2500, 0.2500], 'LineWidth', 1.7, ...
         'MarkerSize', 7);
+    set(ax, 'FontSize', 14, 'LineWidth', 1.1);
 end
 
 function [line_style, marker, color, line_width] = ebno_curve_style(j_idx, curve_type)
@@ -208,16 +210,19 @@ function add_ebno_inset(parent_ax, ebno_db_grid, ebno_curves, J_list)
     plot_ebno_curves(inset_ax, ebno_db_grid, ebno_curves, J_list);
     zoom_mask = ebno_db_grid >= max(ebno_db_grid) - 6;
     y_focus = [ebno_curves.proposed_db(:, zoom_mask); ebno_curves.bound_db(:, zoom_mask)];
-    xlim([max(ebno_db_grid) - 6, max(ebno_db_grid)]);
+    zoom_xlim = [max(ebno_db_grid) - 6, max(ebno_db_grid)];
+    xlim(zoom_xlim);
     y_span = max(y_focus(:)) - min(y_focus(:));
     y_pad = max(0.08 * y_span, 0.08);
-    ylim([min(y_focus(:)) - y_pad, max(y_focus(:)) + y_pad]);
+    zoom_ylim = [min(y_focus(:)) - y_pad, max(y_focus(:)) + y_pad];
+    ylim(zoom_ylim);
     grid on;
-    set(gca, 'FontSize', 9, 'Box', 'on');
+    set(gca, 'FontSize', 11, 'Box', 'on', 'LineWidth', 1.0);
     xlabel('');
     ylabel('');
-    title('Zoom', 'FontSize', 9);
+    title('Zoom', 'FontSize', 12);
     uistack(inset_ax, 'top');
+    add_zoom_arrow(parent_ax, inset_ax, zoom_xlim, zoom_ylim);
 end
 
 function add_path_inset(parent_ax, path_grid, path_curves)
@@ -231,16 +236,19 @@ function add_path_inset(parent_ax, path_grid, path_curves)
     plot_path_curves(inset_ax, path_grid, path_curves);
     zoom_mask = path_grid <= min(path_grid) + 4;
     y_focus = [path_curves.proposed_db(zoom_mask); path_curves.bound_db(zoom_mask)];
-    xlim([min(path_grid), min(path_grid) + 4]);
+    zoom_xlim = [min(path_grid), min(path_grid) + 4];
+    xlim(zoom_xlim);
     y_span = max(y_focus(:)) - min(y_focus(:));
     y_pad = max(0.12 * y_span, 0.08);
-    ylim([min(y_focus(:)) - y_pad, max(y_focus(:)) + y_pad]);
+    zoom_ylim = [min(y_focus(:)) - y_pad, max(y_focus(:)) + y_pad];
+    ylim(zoom_ylim);
     grid on;
-    set(gca, 'FontSize', 9, 'Box', 'on');
+    set(gca, 'FontSize', 11, 'Box', 'on', 'LineWidth', 1.0);
     xlabel('');
     ylabel('');
-    title('Zoom', 'FontSize', 9);
+    title('Zoom', 'FontSize', 12);
     uistack(inset_ax, 'top');
+    add_zoom_arrow(parent_ax, inset_ax, zoom_xlim, zoom_ylim);
 end
 
 function inset_pos = choose_inset_position(parent_ax, data_x, data_y, inset_w, inset_h)
@@ -319,6 +327,59 @@ end
 function does_overlap = rectangles_overlap(a, b)
     does_overlap = a(1) < b(1) + b(3) && a(1) + a(3) > b(1) && ...
         a(2) < b(2) + b(4) && a(2) + a(4) > b(2);
+end
+
+function add_zoom_arrow(parent_ax, inset_ax, zoom_xlim, zoom_ylim)
+    fig = ancestor(parent_ax, 'figure');
+    y_mid = mean(zoom_ylim);
+    if strcmp(parent_ax.YScale, 'log')
+        y_mid = 10^mean(log10(zoom_ylim));
+    end
+    start = data_to_figure_coords(parent_ax, mean(zoom_xlim), y_mid);
+    inset_pos = inset_ax.Position;
+    inset_center = [inset_pos(1) + inset_pos(3) / 2, inset_pos(2) + inset_pos(4) / 2];
+    end_pt = nearest_rect_edge(inset_pos, start, inset_center);
+    annotation(fig, 'arrow', [start(1), end_pt(1)], [start(2), end_pt(2)], ...
+        'Color', [0.15, 0.15, 0.15], 'LineWidth', 1.2, 'HeadLength', 8, 'HeadWidth', 8);
+end
+
+function pt = data_to_figure_coords(ax, x, y)
+    ax_pos = ax.Position;
+    x_lim = xlim(ax);
+    y_lim = ylim(ax);
+    x_norm = (x - x_lim(1)) / diff(x_lim);
+    if strcmp(ax.YScale, 'log')
+        y_norm = (log10(y) - log10(y_lim(1))) / diff(log10(y_lim));
+    else
+        y_norm = (y - y_lim(1)) / diff(y_lim);
+    end
+    pt = [ax_pos(1) + x_norm * ax_pos(3), ax_pos(2) + y_norm * ax_pos(4)];
+end
+
+function pt = nearest_rect_edge(rect, start, center)
+    direction = center - start;
+    if all(abs(direction) < eps)
+        pt = center;
+        return;
+    end
+    scales = [];
+    if direction(1) > 0
+        scales(end + 1) = (rect(1) - start(1)) / direction(1); %#ok<AGROW>
+    elseif direction(1) < 0
+        scales(end + 1) = (rect(1) + rect(3) - start(1)) / direction(1); %#ok<AGROW>
+    end
+    if direction(2) > 0
+        scales(end + 1) = (rect(2) - start(2)) / direction(2); %#ok<AGROW>
+    elseif direction(2) < 0
+        scales(end + 1) = (rect(2) + rect(4) - start(2)) / direction(2); %#ok<AGROW>
+    end
+    scales = scales(scales > 0);
+    if isempty(scales)
+        pt = center;
+        return;
+    end
+    scale = min(scales);
+    pt = start + scale * direction;
 end
 
 function ebno_curves = compute_ebno_mse_curves(Nt, a, b, paths, J_list, ebno_db, random_trials)
